@@ -2808,6 +2808,7 @@ public class SystemService extends Service implements
         sendEventMessage(EventCode.DriverReport, event);
 
         if (infoID != 0 && reportType!= 2) {
+            //test
             //固定班表確認INFO ID
             if (dummy_branch!=null){
                 this.changeRoad(dummy_roadID,dummy_direct,dummy_branch);
