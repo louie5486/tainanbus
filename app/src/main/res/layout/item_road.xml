@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/roadLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/beginTextView"
+        style="@style/txt_item_station_id_night"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/branchTextView"
+        android:layout_toRightOf="@+id/checkRadioButton"
+        android:layout_toStartOf="@+id/branchTextView"
+        android:text="Begin Text" />
+
+    <TextView
+        android:id="@+id/endTextView"
+        style="@style/txt_item_station_id_night"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/beginTextView"
+        android:layout_alignStart="@+id/beginTextView"
+        android:layout_below="@+id/beginTextView"
+        android:layout_toLeftOf="@+id/branchTextView"
+        android:layout_toStartOf="@+id/branchTextView"
+        android:text="End Text" />
+
+    <com.hantek.ttia.view.InsertCheckBox
+        android:id="@+id/checkRadioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:background="@color/blue_color"
+        android:button="@drawable/single_radio_chice"
+        android:focusable="false"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/branchTextView"
+        style="@style/txt_item_station_id_night"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/checkRadioButton"
+        android:text="New Text" />
+</RelativeLayout>

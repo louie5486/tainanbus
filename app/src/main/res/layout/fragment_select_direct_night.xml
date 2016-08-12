@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/main_background_night"
+    android:orientation="horizontal"
+    android:padding="3dp">
+
+    <ListView
+        android:id="@+id/roadListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="3dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/roadDetailsTextView"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/direct1Button"
+            style="@style/btn_change_direct_night"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_white_night"
+            android:text="@string/direct_1" />
+
+        <Button
+            android:id="@+id/direct2Button"
+            style="@style/btn_cancel_night"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_white_night"
+            android:text="@string/direct_2" />
+
+        <Button
+            android:id="@+id/otherButton"
+            style="@style/btn_cancel_night"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_white_night"
+            android:text="@string/other"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/cancelButton"
+            style="@style/btn_cancel_night"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_white_night"
+            android:text="@string/cancel" />
+    </LinearLayout>
+</LinearLayout>

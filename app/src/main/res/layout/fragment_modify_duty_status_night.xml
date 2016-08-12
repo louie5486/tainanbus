@@ -1,0 +1,104 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="3dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:layout_above="@+id/dutyStatusGoBackButton">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/dutyModifyButton1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:text="@string/car_status_online"
+                android:background="@drawable/btn_white_night"
+                style="@style/btn_duty_status_night"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/dutyModifyButton2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:text="@string/duty_status_start"
+                android:background="@drawable/btn_white_night"
+                style="@style/btn_duty_status_night"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/dutyModifyButton3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:text="@string/duty_status_stop"
+                android:background="@drawable/btn_white_night"
+                style="@style/btn_duty_status_night"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/dutyModifyButton4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:text="@string/duty_status_full"
+                android:background="@drawable/btn_white_night"
+                style="@style/btn_duty_status_night"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/dutyModifyButton5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:text="@string/duty_status_OnRoad"
+                android:background="@drawable/btn_white_night"
+                style="@style/btn_duty_status_night"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/dutyStatusTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_span="3"
+        android:text="@string/title_change_duty_status"
+        style="@style/txt_duty_status_title_night"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/dutyStatusGoBackButton"/>
+
+    <Button
+        android:id="@+id/dutyStatusGoBackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/previous"
+        android:background="@drawable/btn_white_night"
+        style="@style/btn_duty_status_night"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="3dp"/>
+
+</RelativeLayout>

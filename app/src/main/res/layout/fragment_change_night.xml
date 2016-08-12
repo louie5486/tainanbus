@@ -1,0 +1,81 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context="com.com.ttia.QuickChangeDialogFragment"
+              android:padding="3dp"
+              android:background="@drawable/main_background_night"
+              android:orientation="horizontal">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/cancel"
+            android:background="@drawable/btn_white_night"
+            style="@style/btn_cancel_night"
+            android:id="@+id/backButton"
+            android:layout_margin="3dp"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="變更方向"
+            style="@style/txt_change_direct_night"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:id="@+id/roadDetailsTextView"
+            android:layout_margin="3dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/other"
+            android:background="@drawable/btn_white_night"
+            style="@style/btn_change_direct_night"
+            android:id="@+id/directButton"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/roadDetailsTextView"
+            android:layout_margin="3dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="變更站點"
+            style="@style/txt_change_station_night"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:id="@+id/textView2"
+            android:layout_margin="3dp"/>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/stationListView"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/textView2"
+            android:layout_margin="3dp"/>
+    </RelativeLayout>
+</LinearLayout>

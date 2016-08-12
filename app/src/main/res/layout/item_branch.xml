@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_toLeftOf="@+id/linearLayout"
+        android:layout_toStartOf="@+id/linearLayout"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnA"
+                style="@style/btn_road_digit_night"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_white_night"
+                android:text="A" />
+
+            <Button
+                android:id="@+id/btnB"
+                style="@style/btn_road_digit_night"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_white_night"
+                android:text="B" />
+
+            <Button
+                android:id="@+id/btnC"
+                style="@style/btn_road_digit_night"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_white_night"
+                android:text="C" />
+
+            <Button
+                android:id="@+id/btnD"
+                style="@style/btn_road_digit_night"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_white_night"
+                android:text="D" />
+
+            <Button
+                android:id="@+id/btnE"
+                style="@style/btn_road_digit_night"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_white_night"
+                android:text="E" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnG"
+                style="@style/btn_road_digit_night"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_white_night"
+                android:text="G" />
+
+            <Button
+                android:id="@+id/btnH"
+                style="@style/btn_road_digit_night"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_white_night"
+                android:text="H" />
+
+            <Button
+                android:id="@+id/btnI"
+                style="@style/btn_road_digit_night"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_white_night"
+                android:text="I" />
+
+            <Button
+                android:id="@+id/btnJ"
+                style="@style/btn_road_digit_night"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_white_night"
+                android:text="J" />
+
+            <Button
+                android:id="@+id/btnK"
+                style="@style/btn_road_digit_night"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_white_night"
+                android:text="K" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/backButton"
+            style="@style/btn_cancel_night"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/btn_white_night"
+            android:text="返回"
+            android:padding="5dp" />
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/gpsImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_gps_off_black_48dp" />
+
+    <ImageView
+        android:id="@+id/accImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/key_down" />
+
+    <ImageView
+        android:id="@+id/di1ImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_looks_one_black_48dp" />
+
+    <ImageView
+        android:id="@+id/di2ImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_looks_two_black_48dp" />
+
+    <ImageView
+        android:id="@+id/ledImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/input_device_black" />
+
+    <ImageView
+        android:id="@+id/etmImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/input_device_black" />
+
+    <ImageView
+        android:id="@+id/dcrImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/input_device_black" />
+
+    <TextView
+        android:id="@+id/advertTextView"
+        style="@style/txt_time_night"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="00" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/timeTextView"
+            style="@style/txt_time_night"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="HH:mm:ss" />
+
+        <ImageView
+            android:id="@+id/signalImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/timeTextView"
+            android:layout_toStartOf="@+id/timeTextView" />
+
+        <ImageView
+            android:id="@+id/modeImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/signalImageView"
+            android:layout_toStartOf="@+id/signalImageView"
+            android:src="@drawable/ic_wifi_black_48dp" />
+
+        <ImageView
+            android:id="@+id/comm2ImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/modeImageView"
+            android:layout_toStartOf="@+id/modeImageView"
+            android:src="@drawable/ic_import_export_black_48dp_red" />
+
+        <ImageView
+            android:id="@+id/comm1ImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/comm2ImageView"
+            android:layout_toStartOf="@+id/comm2ImageView"
+            android:src="@drawable/ic_import_export_black_48dp_red" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,122 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="3dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:orientation="vertical"
+        android:layout_above="@+id/busStatusGoBackButton"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/carModifyButton1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:text="@string/car_status_online"
+                android:background="@drawable/btn_white_night"
+                style="@style/btn_bus_status_night"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/carModifyButton2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:text="@string/car_status_accident"
+                android:background="@drawable/btn_white_night"
+                style="@style/btn_bus_status_night"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/carModifyButton3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:text="@string/car_status_breakdown"
+                android:background="@drawable/btn_white_night"
+                style="@style/btn_bus_status_night"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/carModifyButton4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:text="@string/car_status_jam"
+                android:background="@drawable/btn_white_night"
+                style="@style/btn_bus_status_night"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/carModifyButton5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:text="@string/car_status_emergency"
+                android:background="@drawable/btn_white_night"
+                style="@style/btn_bus_status_night"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/carModifyButton6"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:text="@string/car_status_service"
+                android:background="@drawable/btn_white_night"
+                style="@style/btn_bus_status_night"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/carModifyButton7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:text="@string/car_status_offline"
+                android:background="@drawable/btn_white_night"
+                style="@style/btn_bus_status_night"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/carStatusTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_change_car_status"
+        style="@style/txt_bus_status_title_night"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/busStatusGoBackButton"/>
+
+    <Button
+        android:id="@+id/busStatusGoBackButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/previous"
+        android:background="@drawable/btn_white_night"
+        style="@style/btn_bus_status_night"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="3dp"/>
+
+</RelativeLayout>

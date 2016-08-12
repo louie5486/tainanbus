@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="night_mode_color">#DD7321</color>
+    <color name="night_mode_dark_color">#DD4814</color>
+    <color name="background_color">#FFFFFF</color>
+
+    <!-- button style-->
+    <color name="red_color">#cd0303</color>
+    <color name="green_color">#02cd28</color>
+    <color name="yellow_color">#cdca01</color>
+    <color name="blue_color">#020fcd</color>
+    <color name="white_color">#fffffb</color>
+
+    <color name="day_mode_btn_text">#000000</color>
+    <color name="day_mode_btn_background">#fff7f7</color>
+
+    <color name="night_mode_btn_text">#fff7f7</color>
+    <color name="night_mode_btn_background">#000000</color>
+
+    <color name="day_mode_txt_text">#000000</color>
+    <color name="day_mode_txt_background">#fff7f7</color>
+
+    <color name="night_mode_txt_text">#dbd8dd</color>
+    <color name="night_mode_txt_background">#0e0e10</color>
+
+    <color name="night_mode_txt_bus_title">#27a43d</color>
+</resources>

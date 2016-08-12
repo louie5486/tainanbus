@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">tBus</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="activity_label_login">身分識別</string>
+    <string name="activity_label_main">主畫面</string>
+    <string name="login_progress_signing_in">Signing in&#8230;</string>
+
+    <!-- 一般 button -->
+    <string name="list">清單</string>
+    <string name="clean">清除</string>
+    <string name="confirm">確認</string>
+    <string name="next_step">下一步</string>
+    <string name="cancel">取消</string>
+    <string name="back">返回</string>
+    <string name="page_up">上頁</string>
+    <string name="page_down">下頁</string>
+    <string name="go">發車</string>
+    <string name="goes">重發</string>
+    <string name="main">主畫面</string>
+    <string name="unDuty">非營運\n(換路線)</string>
+    <string name="previous">回前頁</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+
+    <!-- 數字 button -->
+    <string name="digi_1">1</string>
+    <string name="digi_2">2</string>
+    <string name="digi_3">3</string>
+    <string name="digi_4">4</string>
+    <string name="digi_5">5</string>
+    <string name="digi_6">6</string>
+    <string name="digi_7">7</string>
+    <string name="digi_8">8</string>
+    <string name="digi_9">9</string>
+    <string name="digi_0">0</string>
+    <string name="id">駕駛代碼</string>
+    <string name="msg_input_driverid">請輸入駕駛代碼</string>
+    <string name="msg_input_roadid">請輸入路線代碼</string>
+    <string name="msg_input_road_details">找不到路線</string>
+
+    <!-- 標題 -->
+    <string name="title_change_car_status">行車狀態變更</string>
+    <string name="title_change_duty_status">勤務狀態變更</string>
+
+    <!-- 行車狀態 button -->
+    <string name="car_status_online">正常</string>
+    <string name="car_status_accident">車禍</string>
+    <string name="car_status_breakdown">故障</string>
+    <string name="car_status_jam">塞車</string>
+    <string name="car_status_emergency">緊急求援</string>
+    <string name="car_status_service">加油洗車</string>
+    <string name="car_status_offline">非營運</string>
+
+    <!-- 勤務狀態  button -->
+    <string name="duty_status_ready">正常</string>
+    <string name="duty_status_start">開始</string>
+    <string name="duty_status_stop">結束</string>
+    <string name="duty_status_full">客滿</string>
+    <string name="duty_status_OnRoad">包車出租</string>
+    <string name="duty_status">勤務狀態</string>
+
+    <!-- test mode label -->
+    <string name="a1a4">A1A4</string>
+    <string name="d3">D3</string>
+    <string name="d1">D1</string>
+    <string name="e2">E2</string>
+    <string name="clear">Clear</string>
+
+    <string name="direct_1">去程</string>
+    <string name="direct_2">回程</string>
+    <string name="direct_0">其他</string>
+    <string name="other">其他</string>
+
+    <string name="branch_0">主線</string>
+    <string name="branch_1">支線</string>
+    <string name="branch_back">回前頁</string>
+
+</resources>

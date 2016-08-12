@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="funtoro">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/libs/funtoro.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

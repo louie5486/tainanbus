@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:orientation="horizontal"
+    android:padding="3dp">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="5">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/roadIDTextView"
+                style="@style/txt_select_roadID_night"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/msg_input_roadid" />
+
+            <TextView
+                android:id="@+id/roadDetailTextView"
+                style="@style/txt_select_roadID_night"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/roadIDButton1"
+                    style="@style/btn_road_digit_night"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_white_night"
+                    android:text="@string/digi_1" />
+
+                <Button
+                    android:id="@+id/roadIDButton2"
+                    style="@style/btn_road_digit_night"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_white_night"
+                    android:text="@string/digi_2" />
+
+                <Button
+                    android:id="@+id/roadIDButton3"
+                    style="@style/btn_road_digit_night"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_white_night"
+                    android:text="@string/digi_3" />
+
+                <Button
+                    android:id="@+id/roadIDButton4"
+                    style="@style/btn_road_digit_night"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_white_night"
+                    android:text="@string/digi_4" />
+
+                <Button
+                    android:id="@+id/roadIDButton5"
+                    style="@style/btn_road_digit_night"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_white_night"
+                    android:text="@string/digi_5" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/roadIDButton6"
+                    style="@style/btn_road_digit_night"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_white_night"
+                    android:text="@string/digi_6" />
+
+                <Button
+                    android:id="@+id/roadIDButton7"
+                    style="@style/btn_road_digit_night"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_white_night"
+                    android:text="@string/digi_7" />
+
+                <Button
+                    android:id="@+id/roadIDButton8"
+                    style="@style/btn_road_digit_night"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_white_night"
+                    android:text="@string/digi_8" />
+
+                <Button
+                    android:id="@+id/roadIDButton9"
+                    style="@style/btn_road_digit_night"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_white_night"
+                    android:text="@string/digi_9" />
+
+                <Button
+                    android:id="@+id/roadIDButton0"
+                    style="@style/btn_road_digit_night"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_white_night"
+                    android:text="@string/digi_0" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/showListButton"
+            style="@style/btn_road_digit_night"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_blue_night"
+            android:text="@string/list"
+            android:textColor="@color/blue_color" />
+
+        <Button
+            android:id="@+id/quitButton"
+            style="@style/btn_road_digit_night"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_red_night"
+            android:text="@string/cancel"
+            android:textColor="@color/red_color" />
+
+        <Button
+            android:id="@+id/clearButton"
+            style="@style/btn_road_digit_night"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_yellow_night"
+            android:text="@string/clean"
+            android:textColor="@color/yellow_color" />
+
+        <Button
+            android:id="@+id/roadSubmitButton"
+            style="@style/btn_road_digit_night"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_green_night"
+            android:text="@string/next_step"
+            android:textColor="@color/green_color" />
+    </LinearLayout>
+
+</LinearLayout>

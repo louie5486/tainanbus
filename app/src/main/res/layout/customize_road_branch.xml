@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background_night"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/mainBranch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/branch0Button"
+            style="@style/btn_change_direct_night"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/btn_white_night"
+            android:text="@string/branch_0" />
+
+        <Button
+            android:id="@+id/branch1Button"
+            style="@style/btn_change_direct_night"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/btn_white_night"
+            android:text="@string/branch_1" />
+
+        <Button
+            android:id="@+id/branchBackButton"
+            style="@style/btn_change_direct_night"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/btn_white_night"
+            android:text="@string/branch_back" />
+
+    </LinearLayout>
+
+    <com.hantek.ttia.view.BranchLayout
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
