@@ -1,10 +1,18 @@
 package com.hantek.ttia.module.roadutils;
 
+import component.LogManager;
+
 public class Station {
     /**
      * 屬性
      */
     public int type;
+
+    /**
+     * 2016/08/16 louie 增加站牌id
+     * 站牌id
+     */
+    public int stop_id;
 
     /**
      * 編號( 0 ~ N )
@@ -52,12 +60,13 @@ public class Station {
     }
 
     /**
-     * @param data "屬性; 編號; 中文名稱; 英文名稱; 經度; 緯度; 速限; 業者自行定義（保留）"
+     * @param data "屬性; 編號; 中文名稱; 英文名稱; 經度; 緯度; 速限; 業者自行定義（保留）;音效檔編號;站牌id"
      * @return Station
      */
     public static Station Parse(String data) {
         Station station = new Station();
         String[] tmp = data.split(";");
+//        LogManager.write("stad:","len: " + tmp.length + "," + data,null);
         station.type = Integer.parseInt(tmp[0].trim());
         station.id = Integer.parseInt(tmp[1].trim());
         station.zhName = tmp[2].trim();
@@ -71,6 +80,10 @@ public class Station {
 
         if (tmp.length > 8)
             station.audioID = tmp[8].trim();
+
+        if (tmp.length > 9)
+            station.stop_id = Integer.parseInt(tmp[9].trim());
+
         return station;
     }
 
@@ -85,6 +98,7 @@ public class Station {
         newStation.longitude = longitude;
         newStation.reserved = reserved;
         newStation.speedLimit = speedLimit;
+        newStation.stop_id = stop_id;
         return newStation;
     }
 }

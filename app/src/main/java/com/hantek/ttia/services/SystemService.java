@@ -1589,10 +1589,11 @@ public class SystemService extends Service implements
                     return;
                 }
 
+                //2016/08/16 更改回傳stationid 為實際站牌id，不是站序
                 if (SystemPara.getInstance().getCurrentRPM() > SystemPara.getInstance().getRegisterResponse().RPM) {
                     EventReport0x0002 event = new EventReport0x0002();
                     event.monitorData = this.getMonitorDataType2();
-                    event.stationID = station.id;
+                    event.stationID = station.stop_id;
                     event.type = 0x00;
                     event.value = SystemPara.getInstance().getRegisterResponse().RPM;
                     sendEventMessage(EventCode.OverSpeedAndRPM, event);
@@ -1601,7 +1602,7 @@ public class SystemService extends Service implements
                 if (SystemPara.getInstance().getCurrentSpeed() > station.speedLimit) {
                     EventReport0x0002 event = new EventReport0x0002();
                     event.monitorData = this.getMonitorDataType2();
-                    event.stationID = station.id;
+                    event.stationID = station.stop_id;
                     event.type = 0x01;
                     event.value = station.speedLimit;
                     sendEventMessage(EventCode.OverSpeedAndRPM, event);
@@ -2130,7 +2131,7 @@ public class SystemService extends Service implements
     @Override
     public void enterStation(Station station, GpsContent gps, boolean endStation, Road road) {
         try {
-            LogManager.write("STA", "S," + station.id + "," + station.zhName + "," + station.type + "," + gps.toString(), null);
+            LogManager.write("STA", "S," + station.id + "(" +station.stop_id + "),"+ station.zhName + "," + station.type + "," + gps.toString(), null);
 
             if (station.type != 1) // 虛擬站點
                 return;
@@ -2151,7 +2152,8 @@ public class SystemService extends Service implements
                 event.monitorData = this.getMonitorDataType2();
             else
                 event.monitorData = this.getMonitorDataType2(gps.gpsStruct);
-            event.stationID = station.id;
+            //2016/08/16 改為實際站牌id
+            event.stationID = station.stop_id;
             event.type = 0x01;
             sendEventMessage(EventCode.InOutStation, event);
             isDoorOpen = false;
@@ -2163,7 +2165,7 @@ public class SystemService extends Service implements
     @Override
     public void leaveStation(Station station, GpsContent gps, boolean endStation, Road road) {
         try {
-            LogManager.write("STA", "E," + station.id + "," + station.zhName + "," + station.type + "," + gps.toString(), null);
+            LogManager.write("STA", "E," + station.id + "(" +station.stop_id + ")," + station.zhName + "," + station.type + "," + gps.toString(), null);
 
             if (station.type != 1) // 虛擬站點
                 return;
@@ -2184,7 +2186,7 @@ public class SystemService extends Service implements
                 event.monitorData = this.getMonitorDataType2();
             else
                 event.monitorData = this.getMonitorDataType2(gps.gpsStruct);
-            event.stationID = stationID;
+            event.stationID = road.stationArrayList.get(stationID).stop_id;
             event.type = 0x00;
             sendEventMessage(EventCode.InOutStation, event);
         } catch (Exception e) {
@@ -2716,6 +2718,7 @@ public class SystemService extends Service implements
         RoadManager.getInstance().setNextStation(stationID);
 
         Station station = RoadManager.getInstance().getNextStation();
+        LogManager.write("debug", "NextStation: " + station.zhName+ " ( " + station.stop_id + " )", null);
         Road road = RoadManager.getInstance().getCurrentRoad();
 
         LEDPlayer.getInstance().play(station, road.audioGender, road.audioType, "out");

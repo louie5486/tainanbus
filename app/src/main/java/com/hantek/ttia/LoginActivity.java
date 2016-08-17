@@ -103,7 +103,6 @@ public class LoginActivity extends Activity implements View.OnClickListener, Run
                     request.setCustomerID(cID);
                     RequestTask task = new RequestTask(LoginActivity.this, request);
                     task.execute("路線檢查");
-
                     imService.download(new DownloadReceiver(new Handler()));
                 }
 

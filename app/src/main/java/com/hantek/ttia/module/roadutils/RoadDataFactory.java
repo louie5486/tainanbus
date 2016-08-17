@@ -7,6 +7,7 @@ import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -27,7 +28,7 @@ import java.util.List;
 public class RoadDataFactory {
     private static final String TAG = RoadDataFactory.class.getName();
 
-    private static final String ENCODING = "UTF-16";
+    private static final String ENCODING = "UTF-8";
     private static final String ROAD_FOLDER_NAME = "Road";
 
     public static List<Road> loadRoadData(Context context) {
@@ -138,6 +139,18 @@ public class RoadDataFactory {
         return roadFile.delete();
     }
 
+
+
+    public static String bytesToHex(byte[] in) {
+        final StringBuilder builder = new StringBuilder();
+        for(byte b : in) {
+            builder.append(String.format("%02x", b));
+        }
+        return builder.toString();
+    }
+
+
+
     private static Road generate(String fileName, BufferedReader reader) throws NumberFormatException, IOException {
         String readLine;
         int line = 1;
@@ -152,8 +165,12 @@ public class RoadDataFactory {
         tmpRoad.direct = Integer.parseInt(fileName.substring(fileName.length() - 5, fileName.length() - 4));
 
         while ((readLine = reader.readLine()) != null) {
+
+
             switch (line) {
                 case 1:
+                    readLine = readLine.replaceAll("\uFEFF", "");
+                    System.out.println("line len: " + readLine.length() + " data:" + bytesToHex(readLine.getBytes()));
                     tmpRoad.totalStation = Integer.parseInt(readLine);
                     break;
                 case 2:
@@ -229,7 +246,9 @@ public class RoadDataFactory {
 
     private static Road readFile(File file) {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
+            InputStreamReader isr = new InputStreamReader(new FileInputStream(file), ENCODING);
+            BufferedReader br = new BufferedReader(isr);
+//            BufferedReader br = new BufferedReader(new FileReader(file));
             Road roadData = generate(file.getName(), br);
             br.close();
             return roadData;
