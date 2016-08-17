@@ -52,6 +52,7 @@ public class RoadUpdater {
             String xmlString = EntityUtils.toString(r_entity);
             xmlString = new String(xmlString.getBytes(), "UTF-8");
             //test git
+            //test git 2222
             return parseRoadData(xmlString);
         } catch (Exception e) {
             e.printStackTrace();
