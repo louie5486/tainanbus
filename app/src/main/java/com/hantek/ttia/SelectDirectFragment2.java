@@ -137,7 +137,7 @@ public class SelectDirectFragment2 extends DialogFragment implements View.OnClic
             sb.append(newID + "路 ");
         sb.append(road.beginStation + "\r\n");
         detailsTextView.setText(sb.toString());
-//        detailsTextView.setSelected(true);
+        detailsTextView.setSelected(true);
 
         // 迄站
         roadDetail2TextView.setText(road.endStation);
