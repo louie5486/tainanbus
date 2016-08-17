@@ -73,7 +73,7 @@ public class RoadUpdater {
             HttpGet get = new HttpGet(url + fileName);
             HttpResponse response = client.execute(get);
             HttpEntity r_entity = response.getEntity();
-            String content = EntityUtils.toString(r_entity, "UTF-16"); // web file encoding
+            String content = EntityUtils.toString(r_entity, "UTF-8"); // web file encoding
 
             if (RoadDataFactory.save(content, fileName)) {
                 Log.d(TAG, content);
