@@ -28,8 +28,9 @@ import java.util.List;
 public class RoadDataFactory {
     private static final String TAG = RoadDataFactory.class.getName();
 
-    private static final String ENCODING = "UTF-8";
+    private static String ENCODING = "UTF-8";
     private static final String ROAD_FOLDER_NAME = "Road";
+    private static boolean isFileEncodeCheck = false;
 
     public static List<Road> loadRoadData(Context context) {
         List<Road> roadList = new LinkedList<Road>();
@@ -103,7 +104,7 @@ public class RoadDataFactory {
         return roadList;
     }
 
-    public static boolean save(String content, String fileName) {
+    public static boolean save(String content, String fileName,String encode) {
         String filePath = String.format("%s/%s/%s", getExternalPath(), ROAD_FOLDER_NAME, fileName);
 
         File roadFile = new File(filePath);
@@ -113,7 +114,7 @@ public class RoadDataFactory {
         try {
             fileOutputStream = new FileOutputStream(roadFile, true);
             try {
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream,"UTF-8");
                 outputStreamWriter.write(content);
                 outputStreamWriter.close();
             } catch (Exception e) {
@@ -139,6 +140,13 @@ public class RoadDataFactory {
         return roadFile.delete();
     }
 
+    public static void deleteAllFile(){
+        try{
+            String[] file_list = getRoadFile();
+            for (String n: file_list)
+                deleteFile(n);
+        }catch(Exception x){x.printStackTrace();}
+    }
 
 
     public static String bytesToHex(byte[] in) {
@@ -244,9 +252,37 @@ public class RoadDataFactory {
         return list == null ? new String[0] : list;
     }
 
+
+
+    private static boolean is_fileCheck(File file){
+//        if (isFileEncodeCheck) return true;
+        try{
+            byte[] bin = new byte[3];
+            FileInputStream inp = new FileInputStream(file);
+            if (inp.available()>3){
+                inp.read(bin,0,3);
+                System.out.println("File encode check: " + file.getName() + " data:" + bytesToHex(bin));
+                inp.close();
+            }
+            if (bin[0] == (byte)0xEF && bin[1] == (byte)0xBB && bin[2] == (byte)0xBF){
+                ENCODING = "UTF-8";
+            }else if (bin[0] == (byte)0x3c && bin[1] == (byte)0x21 && bin[2] == (byte)0x44){
+                file.delete();
+                return false;
+            }else{
+                ENCODING = "UTF-16";
+            }
+            isFileEncodeCheck = true;
+        }catch (Exception x){
+            x.printStackTrace();
+        }
+        return true;
+    }
+
     private static Road readFile(File file) {
         try {
-            InputStreamReader isr = new InputStreamReader(new FileInputStream(file), ENCODING);
+            if (!is_fileCheck(file)) return null;
+            InputStreamReader isr = new InputStreamReader(new FileInputStream(file), "UTF-8");
             BufferedReader br = new BufferedReader(isr);
 //            BufferedReader br = new BufferedReader(new FileReader(file));
             Road roadData = generate(file.getName(), br);

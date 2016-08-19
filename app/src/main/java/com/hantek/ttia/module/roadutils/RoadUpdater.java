@@ -35,7 +35,6 @@ public class RoadUpdater {
     static final String TAG = RoadUpdater.class.getName();
     static final String CLOUD_URL = "http://61.222.88.241:8089/BUS/customerID/road/update.xml";
     static final String DOWNLOAD_URL = "http://61.222.88.241:8089/BUS/customerID/road/";
-
     /**
      * 取得雲端的路線資料
      *
@@ -51,15 +50,20 @@ public class RoadUpdater {
             HttpEntity r_entity = response.getEntity();
             String xmlString = EntityUtils.toString(r_entity);
             xmlString = new String(xmlString.getBytes(), "UTF-8");
-            //test git
-            //test git 2222
-            //test git 3333
             return parseRoadData(xmlString);
         } catch (Exception e) {
             e.printStackTrace();
             LogManager.write("road", String.format("*** fetch Road fail, %s. ***", customerID), null);
             return null;
         }
+    }
+
+    public static String bytesToHex(byte[] in) {
+        final StringBuilder builder = new StringBuilder();
+        for(byte b : in) {
+            builder.append(String.format("%02x", b));
+        }
+        return builder.toString();
     }
 
     /**
@@ -71,21 +75,33 @@ public class RoadUpdater {
     public static String fetchRoadFile(String fileName, String customerID) {
         boolean fetchResult = false;
         String url = DOWNLOAD_URL.replace("customerID", customerID);
+        String encode = null;
         try {
             HttpClient client = new DefaultHttpClient();
             HttpGet get = new HttpGet(url + fileName);
             HttpResponse response = client.execute(get);
+            int code = response.getStatusLine().getStatusCode();
+            if (code!= 200) return null;
             HttpEntity r_entity = response.getEntity();
-            String content = EntityUtils.toString(r_entity, "UTF-8"); // web file encoding
 
-            if (RoadDataFactory.save(content, fileName)) {
+            byte[] checkby = EntityUtils.toByteArray(r_entity);
+            if (checkby[0] == (byte)0xEF && checkby[1] == (byte)0xBB && checkby[2] == (byte)0xBF){
+                encode = "UTF-8";
+            }else{
+                encode = "UTF-16";
+            }
+            LogManager.write("road", "file name: " + fileName + " data encode: " + encode,null);
+            String content = new String(checkby,encode);
+//            String content = EntityUtils.to.toString(r_entity, "UTF-8"); // web file encoding
+
+            if (RoadDataFactory.save(content, fileName,encode)) {
                 Log.d(TAG, content);
                 fetchResult = true;
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            LogManager.write("road", String.format("fetch road file: %s, %s.", url + fileName, fetchResult), null);
+            LogManager.write("road", String.format("fetch road file: %s, %s. encode: %s", url + fileName, fetchResult, encode), null);
         }
         return fileName;
     }

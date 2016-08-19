@@ -3,6 +3,7 @@ package com.hantek.ttia;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,10 +64,11 @@ public class SelectDirectFragment2 extends DialogFragment implements View.OnClic
         cancelButton.setOnClickListener(this);
 
         detailsTextView = (TextView) view.findViewById(R.id.roadDetailTextView);
+//        detailsTextView.setMovementMethod(ScrollingMovementMethod.getInstance());
 //        detailsTextView.setSelected(true);
 
         roadDetail2TextView = (TextView) view.findViewById(R.id.roadDetail2TextView);
-//        roadDetail2TextView.setSelected(true);
+        roadDetail2TextView.setSelected(true);
 
         infoTextView = (TextView) view.findViewById(R.id.infoTextView);
 
@@ -133,15 +135,14 @@ public class SelectDirectFragment2 extends DialogFragment implements View.OnClic
         // 5路 起站
         int newID = getRouteID(roadID, road.branch);
         StringBuilder sb = new StringBuilder();
-        if (SystemPara.getInstance().getCustomerID() == 9800)
-            sb.append(newID + "路 ");
-        sb.append(road.beginStation + "\r\n");
+//        if (SystemPara.getInstance().getCustomerID() == 9800)
+            sb.append(newID + " 路");
+//        sb.append(road.beginStation + "\r\n");
         detailsTextView.setText(sb.toString());
-        detailsTextView.setSelected(true);
 
         // 迄站
-        roadDetail2TextView.setText(road.endStation);
-//        roadDetail2TextView.setSelected(true);
+        roadDetail2TextView.setText(road.beginStation + "\r\n");
+        roadDetail2TextView.setSelected(true);
 
         // v1v1
         infoTextView.setText("");

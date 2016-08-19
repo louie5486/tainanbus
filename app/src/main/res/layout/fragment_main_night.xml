@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
                 android:padding="3dp"
                 android:layout_height="match_parent">
 
@@ -49,15 +50,16 @@
         android:layout_toLeftOf="@+id/goButton"
         android:layout_toStartOf="@+id/goButton"/>
 
-    <TextView
-        android:id="@+id/roadTextView"
-        style="@style/roadText"
-        android:background="@drawable/btn_white_night"
+
+    <LinearLayout
+        android:id="@+id/conlayout"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="2dp"
+        android:background="@drawable/layout_rectangle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="路線"
         android:layout_toLeftOf="@+id/goButton"
         android:layout_toStartOf="@+id/goButton"
         android:paddingTop="8dp"
@@ -66,8 +68,37 @@
         android:paddingRight="18dp"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
-        android:layout_marginTop="3dp"
-        android:layout_above="@+id/driverTextView"/>
+        android:layout_alignTop="@+id/goButton"
+        android:layout_above="@+id/driverTextView">
+        <TextView
+            android:id="@+id/titleTextView"
+            style="@style/roadText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="路線1"
+            android:maxLines="1"/>
+        <TextView
+            android:id="@+id/roadTextView"
+            style="@style/roadText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="路線2"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:maxLines="1"
+            android:singleLine="true"/>
+        <TextView
+            android:id="@+id/wayTextView"
+            style="@style/roadText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:text="路線3"
+            android:maxLines="1"/>
+    </LinearLayout>
+
 
     <Button
         android:layout_width="wrap_content"
@@ -76,7 +107,7 @@
         android:id="@+id/secondGoButton"
         style="@style/btn_go_night"
         android:layout_below="@+id/goButton"
-        android:layout_toRightOf="@+id/roadTextView"
+        android:layout_toRightOf="@+id/conlayout"
         android:background="@drawable/btn_green_night"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
@@ -85,5 +116,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="3dp"/>
+
 
 </RelativeLayout>

@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/main_background_night"
@@ -39,11 +38,10 @@
                 android:id="@+id/roadDetailTextView"
                 style="@style/txt_select2_roadID_night"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:ellipsize="marquee"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:maxLines="2"/>
-
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:maxLines="1"
+                />
             <TextView
                 android:id="@+id/roadDetail2TextView"
                 style="@style/txt_select2_roadID_night"
@@ -53,8 +51,7 @@
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:maxLines="1"
-                android:singleLine="true"
-                android:visibility="invisible" />
+                android:singleLine="true"/>
         </LinearLayout>
 
         <View
