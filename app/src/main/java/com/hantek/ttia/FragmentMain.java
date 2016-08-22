@@ -162,7 +162,14 @@ public class FragmentMain extends GlobalFragment implements OnClickListener {
 //            sb.append("\n" + road.beginStation + "-" + road.endStation);
         }
         this.titleTextView.setText(sb.toString());
-        this.roadTextView.setText(road.beginStation);
+
+        // 迄站
+        if (road.endStation.equalsIgnoreCase("")){
+            roadTextView.setText(road.beginStation);
+        }else{
+            roadTextView.setText(road.beginStation  + "-" + road.endStation);
+        }
+
         this.roadTextView.setSelected(true);
         this.wayTextView.setText(filterDirect(road.direct));
         return sb.toString();
@@ -181,7 +188,13 @@ public class FragmentMain extends GlobalFragment implements OnClickListener {
 //            sb.append("\n" + road.beginStation + "-" + road.endStation);
         }
         this.titleTextView.setText(sb.toString());
-        this.roadTextView.setText(road.beginStation);
+
+        // 迄站
+        if (road.endStation.equalsIgnoreCase("")){
+            roadTextView.setText(road.beginStation);
+        }else{
+            roadTextView.setText(road.beginStation  + "-" + road.endStation);
+        }
         this.roadTextView.setSelected(true);
         this.wayTextView.setText(filterDirect(road.direct));
         return sb.toString();
