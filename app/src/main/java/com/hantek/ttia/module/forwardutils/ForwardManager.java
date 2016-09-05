@@ -1,32 +1,32 @@
 package com.hantek.ttia.module.forwardutils;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
 import com.hantek.ttia.module.NetworkUtils;
 import com.hantek.ttia.module.Utility;
-import com.hantek.ttia.module.sqliteutils.DBUpdater;
 import com.hantek.ttia.module.sqliteutils.DatabaseHelper;
 import com.hantek.ttia.module.sqliteutils.PacketEntity;
 import com.hantek.ttia.protocol.a1a4.BackendMsgID;
 import com.hantek.ttia.protocol.a1a4.Header;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import component.LogManager;
 
-public class ForwardManager extends Thread {
+public class ForwardManager implements Runnable {
     static final String TAG = ForwardManager.class.getName();
-    static final int CHECK_MS = 1000;
-    static final int RETRY_MS = 30000;
+    static final int CHECK_MS = 100;
+    static final int RETRY_MS = 1500;
     static final int ONE_TIME_MAX_SEND = 5;
     static final int MAX_SEND = 5;
 
-    private static ForwardManager instance = new ForwardManager();
+    private Thread thread;
+    private static ForwardManager instance = new ForwardManager(null);
     private List<ForwardMessage> forwardList = new ArrayList<>();
     private final Object forwardObj = new Object();
 
@@ -47,7 +47,8 @@ public class ForwardManager extends Thread {
         return instance;
     }
 
-    public ForwardManager() {
+    public ForwardManager(Context context) {
+        mContext = context;
         // 設定需要補傳的MessageID
 //        retryList.add(BackendMsgID.RegularReport);
         retryList.add(BackendMsgID.EventReport);
@@ -63,19 +64,25 @@ public class ForwardManager extends Thread {
     }
 
     public void open(Context context) {
+        if (this.isForwardStart)
+            return;
+
         mContext = context;
         this.isForwardStart = true;
-        instance.start();
+        this.thread = new Thread(this);
+        this.thread.start();
     }
 
     public void close() {
         this.isForwardStart = false;
         try {
-            instance.join(1000);
+            thread.join(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-            instance.interrupt();
+            thread.interrupt();
         }
+        thread = null;
+        System.gc();
     }
 
     public int getForwardCount() {
@@ -101,6 +108,7 @@ public class ForwardManager extends Thread {
         if (Utility.dateDiffNow(this.lastCheckTime) > CHECK_MS) {
             this.lastCheckTime = Calendar.getInstance();
 
+            ArrayList<ForwardMessage> tmpRemoveArrayList = new ArrayList();
             synchronized (this.forwardObj) {
                 int maxSendCount = ONE_TIME_MAX_SEND;
                 for (int i = 0; i < this.forwardList.size(); i++) {
@@ -108,10 +116,10 @@ public class ForwardManager extends Thread {
                     // Log.d(TAG, "Check: " + msg.toString());
                     Date d = msg.getSendTime();
                     int sendTime = msg.getSendCount() * RETRY_MS;
-                    if (sendTime == 0)
-                        sendTime = RETRY_MS;
-                    else if (sendTime >= 300000)
-                        sendTime = 300000;
+//                    if (sendTime == 0)
+                    sendTime = RETRY_MS;
+//                    else if (sendTime >= 300000)
+//                        sendTime = 300000;
 
                     if ((new Date().getTime() - d.getTime()) > sendTime) {
                         maxSendCount -= 1;
@@ -122,6 +130,20 @@ public class ForwardManager extends Thread {
                         // Log.d(TAG, "Retry: " + msg.toString());
                         if (this.forwardInterface != null)
                             this.forwardInterface.retry(msg);
+
+                        if (msg.getComm1Ack() == 0) {
+                            if (msg.getSendComm1Count() > 2) {
+                                ForwardMessage forwardMessage = new ForwardMessage(msg.getMsgID(), msg.getSequence(), null, 1, 0);
+                                tmpRemoveArrayList.add(forwardMessage);
+                            }
+                        }
+
+                        if (msg.getComm2Ack() == 0) {
+                            if (msg.getSendComm2Count() > 2) {
+                                ForwardMessage forwardMessage = new ForwardMessage(msg.getMsgID(), msg.getSequence(), null, 0, 1);
+                                tmpRemoveArrayList.add(forwardMessage);
+                            }
+                        }
                     }
 
 //                    if (msg.getSendCount() >= MAX_SEND) {
@@ -136,9 +158,13 @@ public class ForwardManager extends Thread {
                 }
             }
 
-//            synchronized (this.removeObj) {
-//                this.removeList.addAll(tmpRemoveArrayList);
-//            }
+            if (tmpRemoveArrayList.size() > 0) {
+                synchronized (this.removeObj) {
+                    Log.w(TAG, "TODO Remove List=" + this.removeList.size());
+                    this.removeList.addAll(tmpRemoveArrayList);
+                    checking = true;
+                }
+            }
         }
     }
 
@@ -150,17 +176,17 @@ public class ForwardManager extends Thread {
 
         while (this.isForwardStart) {
             try {
-                Thread.sleep(10);
+                Thread.sleep(100);
 
                 if (NetworkUtils.isOnline(mContext)) {
-                    check(NetworkUtils.isConnectedMobile(mContext));
+                    check(true);
 
-                    if (Utility.dateDiffNow(this.lastGetPacket) > 60000) {
-                        this.lastGetPacket = Calendar.getInstance();
-                        if (ForwardManager.getInstance().getForwardCount() <= 10) {
-                            loadPacket();
-                        }
-                    }
+//                    if (Utility.dateDiffNow(this.lastGetPacket) > 60000) {
+//                        this.lastGetPacket = Calendar.getInstance();
+//                        if (ForwardManager.getInstance().getForwardCount() <= 10) {
+//                            loadPacket();
+//                        }
+//                    }
                 }
 
                 if (checking) {

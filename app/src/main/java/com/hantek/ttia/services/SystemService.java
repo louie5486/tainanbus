@@ -36,7 +36,6 @@ import com.hantek.ttia.module.accelerationutils.AccelerationInterface;
 import com.hantek.ttia.module.forwardutils.ForwardInterface;
 import com.hantek.ttia.module.forwardutils.ForwardManager;
 import com.hantek.ttia.module.forwardutils.ForwardMessage;
-import com.hantek.ttia.module.gpsutils.GpsClock;
 import com.hantek.ttia.module.gpsutils.GpsReceiver;
 import com.hantek.ttia.module.handshake.ResponseManager;
 import com.hantek.ttia.module.ledutils.LEDPlayer;
@@ -461,8 +460,8 @@ public class SystemService extends Service implements
             LogManager.write("info", "env is not 5668.", null);
         }
 
-//        ForwardManager.getInstance().setInterface(this);
-//        ForwardManager.getInstance().open(this);
+        ForwardManager.getInstance().setInterface(this);
+        ForwardManager.getInstance().open(this);
         initReceiveBroadcast();
 
         Acceleration.getInstance().setInterface(this);
@@ -742,15 +741,15 @@ public class SystemService extends Service implements
         }
     }
 
-    private void checkScheduldata(RegisterResponse response){
-        try{
+    private void checkScheduldata(RegisterResponse response) {
+        try {
             //有班表，進行改路線動作
-            if (response.schedule==1){
+            if (response.schedule == 1) {
                 dummy_roadID = response.routeID;
                 dummy_direct = response.routeDirect;
                 dummy_branch = Character.toString((char) response.routeBranch);
                 LogManager.write("msg", "取得班表資料變更~", null);
-            }else{
+            } else {
                 dummy_roadID = 0;
                 dummy_direct = 0;
                 dummy_branch = null;
@@ -762,7 +761,9 @@ public class SystemService extends Service implements
 //                this.changeRoad(roadID,direct,branch);
 //                LogManager.write("msg", "無班表資料~改成５路", null);
 //            }
-        }catch(Exception x){x.printStackTrace();}
+        } catch (Exception x) {
+            x.printStackTrace();
+        }
     }
 
 
@@ -2293,6 +2294,8 @@ public class SystemService extends Service implements
             header = getHeader(msgID, tmpSequence);
         }
 
+        boolean inOutEvent = false;
+        String payloadStr = "";
         byte[] data = null;
         switch (msgID) {
             case RegisterRequest:
@@ -2316,6 +2319,10 @@ public class SystemService extends Service implements
             case EventReport:
                 EventReportBase eventHeader = (EventReportBase) payload;
                 data = BackendController.getInstance().sendEventReport(header, eventHeader, payload);
+                if (eventHeader.eventType == EventCode.InOutStation.getValue()) {
+                    inOutEvent = true;
+                    payloadStr = ((EventReport0x0001) payload).toString();
+                }
                 break;
             case Shutdown:
                 data = BackendController.getInstance().sendShutdown(header, (Shutdown) payload);
@@ -2336,11 +2343,14 @@ public class SystemService extends Service implements
             try {
                 // Store Message
                 if (ForwardManager.getInstance().forwardContains(msgID)) {
-                    ForwardMessage message2 = new ForwardMessage(msgID.getValue(), tmpSequence, data, 0, 0);
-                    ForwardManager.getInstance().add(message2);
+                    if (inOutEvent) {
+                        ForwardMessage message2 = new ForwardMessage(msgID.getValue(), tmpSequence, data, 0, 0);
+                        ForwardManager.getInstance().add(message2);
+                    }
 
-                    DatabaseHelper.getInstance(getApplicationContext()).insertPacket(String.valueOf(msgID.getValue()), String.valueOf(tmpSequence), Utility.bytesToHex(data),
-                            GpsClock.getInstance().getTime(), 0, 0);
+                    // 存到SQLite DB
+//                    DatabaseHelper.getInstance(getApplicationContext()).insertPacket(String.valueOf(msgID.getValue()), String.valueOf(tmpSequence), Utility.bytesToHex(data),
+//                            GpsClock.getInstance().getTime(), 0, 0);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -2350,12 +2360,12 @@ public class SystemService extends Service implements
             if (NetworkUtils.isOnline(getApplication())) {
                 this.ttiaComm.send(data);
                 this.hantekComm.send(data);
-                LogManager.write("comm1", "S:" + header.toString(), null);
-                LogManager.write("comm2", "S:" + header.toString(), null);
+                LogManager.write("comm1", "S:" + header.toString() + payloadStr, null);
+                LogManager.write("comm2", "S:" + header.toString() + payloadStr, null);
             } else {
                 // 2016-03-22 無網路的紀錄
-                LogManager.write("comm1", "SF:" + header.toString(), null);
-                LogManager.write("comm2", "SF:" + header.toString(), null);
+                LogManager.write("comm1", "SF:" + header.toString() + payloadStr, null);
+                LogManager.write("comm2", "SF:" + header.toString() + payloadStr, null);
             }
         }
 
@@ -2499,15 +2509,15 @@ public class SystemService extends Service implements
     @Override
     public void retry(ForwardMessage message) {
         if (message.getComm1Ack() == 0) {
-            LogManager.write("comm1", String.format("S-retry: ID=%s, SEQ=%s, COUNT=%s.", message.getMsgID(), message.getSequence(), message.getSendCount()), null);
+            LogManager.write("comm1", String.format("S-retry: ID=%s, SEQ=%s, COUNT=%s.", message.getMsgID(), message.getSequence(), message.getSendComm1Count()), null);
             this.ttiaComm.send(message.getData());
-            Log.w(TAG, String.format("Retry to [1], ID=%s, SEQ=%s, COUNT=%s. Forward List:%s.", message.getMsgID(), message.getSequence(), message.getSendCount(), ForwardManager.getInstance().getForwardCount()));
+            // Log.w(TAG, String.format("Retry to [1], ID=%s, SEQ=%s, COUNT=%s. Forward List:%s.", message.getMsgID(), message.getSequence(), message.getSendComm1Count(), ForwardManager.getInstance().getForwardCount()));
         }
 
         if (message.getComm2Ack() == 0) {
-            LogManager.write("comm2", String.format("S-retry: ID=%s, SEQ=%s, COUNT=%s.", message.getMsgID(), message.getSequence(), message.getSendCount()), null);
+            LogManager.write("comm2", String.format("S-retry: ID=%s, SEQ=%s, COUNT=%s.", message.getMsgID(), message.getSequence(), message.getSendComm2Count()), null);
             this.hantekComm.send(message.getData());
-            Log.w(TAG, String.format("Retry to [2], ID=%s, SEQ=%s COUNT=%s. Forward List:%s.", message.getMsgID(), message.getSequence(), message.getSendCount(), ForwardManager.getInstance().getForwardCount()));
+            // Log.w(TAG, String.format("Retry to [2], ID=%s, SEQ=%s COUNT=%s. Forward List:%s.", message.getMsgID(), message.getSequence(), message.getSendComm2Count(), ForwardManager.getInstance().getForwardCount()));
         }
     }
 
@@ -2719,7 +2729,7 @@ public class SystemService extends Service implements
         RoadManager.getInstance().setNextStation(stationID);
 
         Station station = RoadManager.getInstance().getNextStation();
-        LogManager.write("debug", "NextStation: " + station.zhName+ " ( " + station.stop_id + " )", null);
+        LogManager.write("debug", "NextStation: " + station.zhName + " ( " + station.stop_id + " )", null);
         Road road = RoadManager.getInstance().getCurrentRoad();
 
         LEDPlayer.getInstance().play(station, road.audioGender, road.audioType, "out");
@@ -2811,11 +2821,11 @@ public class SystemService extends Service implements
         event.reserved = 0;
         sendEventMessage(EventCode.DriverReport, event);
 
-        if (infoID != 0 && reportType!= 2) {
+        if (infoID != 0 && reportType != 2) {
             //test
             //固定班表確認INFO ID
-            if (dummy_branch!=null){
-                this.changeRoad(dummy_roadID,dummy_direct,dummy_branch);
+            if (dummy_branch != null) {
+                this.changeRoad(dummy_roadID, dummy_direct, dummy_branch);
                 dummy_branch = null;
             }
             SystemPara.getInstance().setInfoID(infoID);
