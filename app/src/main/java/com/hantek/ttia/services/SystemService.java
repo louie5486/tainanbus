@@ -164,7 +164,7 @@ public class SystemService extends Service implements
 
     // 第二通訊
     // 漢名測試
-    private static final String SubServerAddress = "61.222.88.241,10130";
+    private static final String SubServerAddress = "60.199.131.66,10130";   //2016/09/09 v29變更位置(漢名新VM)
     // 開發測試
 //    private static final String SubServerAddress = "61.222.88.242,10130";
 
@@ -2157,6 +2157,8 @@ public class SystemService extends Service implements
             //2016/08/16 改為實際站牌id
             event.stationID = station.stop_id;
             event.type = 0x01;
+            event.oroad = road;
+            event.istation = station;
             sendEventMessage(EventCode.InOutStation, event);
             isDoorOpen = false;
         } catch (Exception e) {
@@ -2190,6 +2192,8 @@ public class SystemService extends Service implements
                 event.monitorData = this.getMonitorDataType2(gps.gpsStruct);
             event.stationID = road.stationArrayList.get(stationID).stop_id;
             event.type = 0x00;
+            event.oroad = road;
+            event.istation = road.stationArrayList.get(stationID);
             sendEventMessage(EventCode.InOutStation, event);
         } catch (Exception e) {
             e.printStackTrace();
@@ -2321,7 +2325,8 @@ public class SystemService extends Service implements
                 data = BackendController.getInstance().sendEventReport(header, eventHeader, payload);
                 if (eventHeader.eventType == EventCode.InOutStation.getValue()) {
                     inOutEvent = true;
-                    payloadStr = ((EventReport0x0001) payload).toString();
+                    EventReport0x0001 evnr = (EventReport0x0001) payload;
+                    payloadStr = evnr.toFmtString();
                 }
                 break;
             case Shutdown:

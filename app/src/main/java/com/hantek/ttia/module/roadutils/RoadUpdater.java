@@ -33,8 +33,12 @@ import component.LogManager;
 
 public class RoadUpdater {
     static final String TAG = RoadUpdater.class.getName();
-    static final String CLOUD_URL = "http://61.222.88.241:8089/BUS/customerID/road/update.xml";
-    static final String DOWNLOAD_URL = "http://61.222.88.241:8089/BUS/customerID/road/";
+//    static final String CLOUD_URL = "http://61.222.88.241:8089/BUS/customerID/road/update.xml";
+//    static final String DOWNLOAD_URL = "http://61.222.88.241:8089/BUS/customerID/road/";      //20160907 切換主機
+
+    static final String CLOUD_URL = "http://60.199.131.66/BUS/customerID/road/update.xml";
+    static final String DOWNLOAD_URL = "http://60.199.131.66/BUS/customerID/road/";
+
     /**
      * 取得雲端的路線資料
      *

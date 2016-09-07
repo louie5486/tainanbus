@@ -21,7 +21,7 @@ import component.LogManager;
 public class ForwardManager implements Runnable {
     static final String TAG = ForwardManager.class.getName();
     static final int CHECK_MS = 100;
-    static final int RETRY_MS = 1500;
+    static final int RETRY_MS = 2500;
     static final int ONE_TIME_MAX_SEND = 5;
     static final int MAX_SEND = 5;
 

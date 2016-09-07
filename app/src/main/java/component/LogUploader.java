@@ -149,7 +149,7 @@ public class LogUploader extends Thread {
 
     private void upload() {
         // hantek ftp
-        final String FTP_HOST = "ftp.hantek.com.tw";// 59.124.205.59
+        final String FTP_HOST = "60.199.131.66";// 59.124.205.59
         // hantek test ftp
 //        final String FTP_HOST = "59.124.205.58";// 59.124.205.59
 

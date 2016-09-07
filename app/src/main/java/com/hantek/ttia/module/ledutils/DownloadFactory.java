@@ -28,10 +28,15 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 public class DownloadFactory {
     static final String TAG = DownloadFactory.class.getName();
-    static final String CLOUD_URL = "http://61.222.88.241:8089/BUS/customerID/led.xml";
-    static final String SYS_CLOUD_URL = "http://61.222.88.241:8089/BUS/customerID/system.xml";
-    static final String WEL_CLOUD_URL = "http://61.222.88.241:8089/BUS/customerID/led_welcome.xml";
-    static final String RADIUS_CLOUD_URL = "http://61.222.88.241:8089/BUS/customerID/led_radius.xml";
+//    static final String CLOUD_URL = "http://61.222.88.241:8089/BUS/customerID/led.xml";
+//    static final String SYS_CLOUD_URL = "http://61.222.88.241:8089/BUS/customerID/system.xml";
+//    static final String WEL_CLOUD_URL = "http://61.222.88.241:8089/BUS/customerID/led_welcome.xml";
+//    static final String RADIUS_CLOUD_URL = "http://61.222.88.241:8089/BUS/customerID/led_radius.xml";     //20160907 切換主機
+
+    static final String CLOUD_URL = "http://60.199.131.66/BUS/customerID/led.xml";
+    static final String SYS_CLOUD_URL = "http://60.199.131.66/BUS/customerID/system.xml";
+    static final String WEL_CLOUD_URL = "http://60.199.131.66/BUS/customerID/led_welcome.xml";
+    static final String RADIUS_CLOUD_URL = "http://60.199.131.66/BUS/customerID/led_radius.xml";
 
     /**
      * 取得雲端的資料

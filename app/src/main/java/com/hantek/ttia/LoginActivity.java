@@ -44,8 +44,11 @@ public class LoginActivity extends Activity implements View.OnClickListener, Run
     static final String REMOTE_PACKET = "tw.com.hantek.www.ota";
     static final String REMOTE_CLASS = "tw.com.hantek.www.ota.RemoteService";
 
-    private static final String UPDATE_URL = "http://61.222.88.241:8089/bus/APK/update.xml";
-    private static final String UPDATE_URL_CUSTOMER = "http://61.222.88.241:8089/bus/customerID/APK/update.xml";
+//    private static final String UPDATE_URL = "http://61.222.88.241:8089/bus/APK/update.xml";
+//    private static final String UPDATE_URL_CUSTOMER = "http://61.222.88.241:8089/bus/customerID/APK/update.xml"; //20160907 切換主機
+
+    private static final String UPDATE_URL = "http://60.199.131.66/bus/APK/update.xml";
+    private static final String UPDATE_URL_CUSTOMER = "http://60.199.131.66/bus/customerID/APK/update.xml";
 
     private TextView driverIDTextView;
     private Button loginButton, clearButton, backspaceButton;

@@ -22,6 +22,7 @@ public class PNDPlay extends RoadManager {
     int nextDist;
     int iFindNextStop;
     boolean bonGOLarrival;
+    GpsContent last_gpsContent;
 
     @Override
     public void reset() {
@@ -33,6 +34,7 @@ public class PNDPlay extends RoadManager {
 
     public void checkStation(GpsContent gpsContent) {
         int iGetNo;
+        last_gpsContent = gpsContent;
         this.stationInterface.debug(String.format("%s,%s,%s,%s,%s,%s,%s,.", gpsContent.isFixed ? "A" : "V", gpsContent.satelliteNumber, gpsContent.lon, gpsContent.lat, gpsContent.getAngle(), gpsContent.getSpeed(), gpsContent.time));
 
         if (this.stationInterface == null) {
@@ -497,7 +499,7 @@ public class PNDPlay extends RoadManager {
         try {
             setiNowStationNo(id);
             this.stationChecked = true;
-
+            this.stationInterface.leaveStation(currentRoad.stationArrayList.get(getiNowStationNo()), last_gpsContent, false, currentRoad);
             this.stationInterface.debug(String.format("PND 手動設定=%s,.", getiNowStationNo()));
             bonGOLarrival = false;
         } catch (Exception e) {

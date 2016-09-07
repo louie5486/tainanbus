@@ -1,6 +1,8 @@
 package com.hantek.ttia.protocol.a1a4;
 
 import com.hantek.ttia.module.BitConverter;
+import com.hantek.ttia.module.roadutils.Road;
+import com.hantek.ttia.module.roadutils.Station;
 
 /**
  * 進出站回報
@@ -12,9 +14,19 @@ public class EventReport0x0001 extends EventReportBase {
     public MonitorStructType2 monitorData;
 
     /**
+     * 路線
+     */
+    public Road oroad;
+
+    /**
      * 站點編號
      */
     public int stationID;
+
+    /**
+     * 站點
+     */
+    public Station istation;
 
     /**
      * 進出狀態(0x01:IN, 0x00:OUT)
@@ -63,6 +75,18 @@ public class EventReport0x0001 extends EventReportBase {
     public String toString() {
         return "{" +
                 "stationID=" + stationID +
+                ", type=" + type +
+                ", doorOpen=" + doorOpen +
+                // ", monitorData=" + monitorData +
+                '}';
+    }
+
+
+    public String toFmtString() {
+        return "{" +
+                "roadID=" + oroad.id +
+                ",stationID=" + stationID +
+                ",stationName=" + istation.zhName +
                 ", type=" + type +
                 ", doorOpen=" + doorOpen +
                 // ", monitorData=" + monitorData +

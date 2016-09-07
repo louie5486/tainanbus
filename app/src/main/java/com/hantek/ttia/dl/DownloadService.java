@@ -72,8 +72,11 @@ public class DownloadService extends IntentService {
     //static final String CLOUD_ADVERT_URL = "http://61.222.88.241:8089/BUS/customerID/advert/update.xml";
 
     //版本確認
-    static final String CLOUD_ADVERT_URL = "http://61.222.88.241:8089/BUS/customerID/advert/advert.xml";
-    static final String CLOUD_ADVERT_DL = "http://61.222.88.241:8089/BUS/customerID/advert";
+//    static final String CLOUD_ADVERT_URL = "http://61.222.88.241:8089/BUS/customerID/advert/advert.xml";  //20160907 切換主機
+//    static final String CLOUD_ADVERT_DL = "http://61.222.88.241:8089/BUS/customerID/advert";
+
+    static final String CLOUD_ADVERT_URL = "http://60.199.131.66/BUS/customerID/advert/advert.xml";
+    static final String CLOUD_ADVERT_DL = "http://60.199.131.66/BUS/customerID/advert";
 
     private static boolean advertRunning = false;
     private static int prepareDownload = 0;
