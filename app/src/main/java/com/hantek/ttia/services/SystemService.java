@@ -154,8 +154,8 @@ public class SystemService extends Service implements
     // 第一通訊
     // 華夏正式平台
 //    private static final String MainServerAddress = "210.241.103.178,4215";
-//    private static final String MainServerAddress = "210.241.103.178,54215";//2016/08/08 v23變更位置
-    private static final String MainServerAddress = "210.241.103.178,4215";//2016/08/26 v27變更位置
+    private static final String MainServerAddress = "210.241.103.178,54215";//2016/08/08 v23變更位置(測試平台)
+//    private static final String MainServerAddress = "210.241.103.178,4215";//2016/08/26 v27變更位置(正式平台)
 
     // 開發測試
     // private static final String MainServerAddress = "61.222.88.242,10129";
@@ -782,6 +782,7 @@ public class SystemService extends Service implements
             ackID = BackendMsgID.RegisterRequest.getValue();
             RegisterResponse response = (RegisterResponse) message.payload;
             SystemPara.getInstance().setHeader(message.header);
+            SystemPara.getInstance().setCarID(message.header.carID);
             SharedPreferencesHelper.getInstance(this).setCarID(String.valueOf(message.header.carID));
             receiveRegisterResponse(response);
             Acceleration.getInstance().setLimited(response.accelerate, response.decelerate);

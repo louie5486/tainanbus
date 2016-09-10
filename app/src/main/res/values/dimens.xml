@@ -9,7 +9,7 @@
     <!-- 主畫面 -->
     <dimen name="mainview_road_text_size">72sp</dimen>
     <dimen name="mainview_driver_text_size">48sp</dimen>
-    <dimen name="mainview_status_text_size">48sp</dimen>
+    <dimen name="mainview_status_text_size">55sp</dimen>
     <dimen name="mainview_go_button_size">72sp</dimen>
 
     <dimen name="select_road_text_size">36sp</dimen>

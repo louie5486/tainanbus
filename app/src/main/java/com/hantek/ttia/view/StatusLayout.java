@@ -26,6 +26,7 @@ public class StatusLayout extends LinearLayout {
     private TextView timeTV;
 
     private TextView advertTV;
+    private TextView car_id;
 
     private boolean gpsFlag = false;
     private int lastGps = -1;
@@ -69,6 +70,7 @@ public class StatusLayout extends LinearLayout {
         ttyUSB3IV = (ImageView) view.findViewById(com.hantek.ttia.R.id.ledImageView);
 
         advertTV = (TextView) view.findViewById(R.id.advertTextView);
+        car_id = (TextView) view.findViewById(R.id.car_id);
     }
 
     public void setGPS(int status) {
@@ -305,4 +307,8 @@ public class StatusLayout extends LinearLayout {
     public void setAdvert(String fileSize) {
         advertTV.setText(fileSize);
     }
+    public void setCarID(String id) {
+        car_id.setText(id);
+    }
+
 }

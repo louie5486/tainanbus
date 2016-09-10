@@ -37,6 +37,10 @@ public class Fragment_FirstTab extends Fragment {
         return view;
     }
 
+    public void setCarID(int id) {
+        status.setCarID(" ID: " + Integer.valueOf(id).toString()+"-"+ SystemPara.getInstance().getVersion_code());
+    }
+
     public void setAdvert(String advert) {
         if (status != null)
             status.setAdvert(advert);

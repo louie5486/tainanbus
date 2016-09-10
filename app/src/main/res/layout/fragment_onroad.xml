@@ -1,35 +1,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/onRoadLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="3dp">
+    android:padding="1dp">
 
     <Button
         android:id="@+id/onRoadGoBackButton"
         style="@style/btn_stop_night"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="3dp"
         android:background="@drawable/btn_red_night"
         android:maxLines="2"
         android:paddingBottom="8dp"
         android:paddingLeft="18dp"
         android:paddingRight="18dp"
         android:paddingTop="8dp"
-        android:text="@string/unDuty" />
+        android:text="@string/unDuty"
+        android:layout_marginRight="3dp"
+        android:layout_marginLeft="24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/roadCurrentTextView" />
 
     <TextView
         android:id="@+id/roadTitleTextView"
         style="@style/roadTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/onRoadGoBackButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/onRoadGoBackButton"
         android:ellipsize="marquee"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -47,45 +49,75 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/roadTitleTextView"
+        android:layout_toLeftOf="@id/onRoadGoBackButton"
         android:maxLines="1"
-        android:text="TextView" />
+        android:text="TextView"/>
+
+    <TextView
+        android:id="@+id/roadCurrTextView"
+        style="@style/roadText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:maxLines="1"
+        android:text="TextView"
+        android:layout_below="@id/roadDirectTextView" />
 
     <TextView
         android:id="@+id/roadCurrentTextView"
         style="@style/roadText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/roadNextTextView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:maxLines="1"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/roadNext"
-        style="@style/roadText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/dutyStatusTextView"
-        android:layout_toLeftOf="@+id/onRoadGoBackButton"
-        android:layout_toRightOf="@+id/roadNextTextView"
-        android:layout_toStartOf="@+id/onRoadGoBackButton"
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"
-        android:maxLines="1"
         android:singleLine="true"
-        android:text="TextView" />
+        android:maxLines="1"
+        android:text=""
+        android:layout_toRightOf="@id/roadCurrTextView"
+        android:layout_below="@id/roadDirectTextView"
+        android:layout_toLeftOf="@id/onRoadGoBackButton" />
+
+    <TextView
+        android:id="@+id/timeTextView"
+        style="@style/txt_time_night"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="11:10"
+        android:textSize="96sp"
+        android:textStyle="normal|bold"
+        android:layout_below="@id/roadTitleTextView"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:maxLines="1"
+        android:layout_above="@+id/onRoadGoBackButton"/>
 
     <TextView
         android:id="@+id/roadNextTextView"
         style="@style/roadText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/dutyStatusTextView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:maxLines="1"
-        android:text="TextView" />
+        android:text="TextView"
+        android:layout_below="@id/roadCurrentTextView" />
+
+    <TextView
+        android:id="@+id/roadNext"
+        style="@style/roadText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="TextView"
+        android:layout_toRightOf="@id/roadNextTextView"
+        android:layout_below="@id/roadCurrentTextView"
+        android:layout_toLeftOf="@id/onRoadGoBackButton" />
+
+
 
     <TextView
         android:id="@+id/dutyStatusTextView"
@@ -93,17 +125,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_margin="3dp"
-        android:layout_toLeftOf="@+id/onRoadGoBackButton"
-        android:layout_toStartOf="@+id/onRoadGoBackButton"
         android:background="@drawable/btn_white_night"
         android:maxLines="1"
         android:paddingBottom="8dp"
-        android:paddingLeft="18dp"
-        android:paddingRight="18dp"
-        android:paddingTop="8dp"
-        android:text="TextView\r\nf" />
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="15dp"
+        android:text="TextView\r\nf"
+        android:layout_below="@id/roadNextTextView"
+        android:layout_marginTop="3dp" />
+
+    <TextView
+        android:id="@+id/carStatusTextView"
+        style="@style/txt_car_status_night"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/btn_white_night"
+        android:maxLines="1"
+        android:paddingBottom="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="15dp"
+        android:text="TextView\r\nf"
+        android:layout_marginLeft="30dp"
+        android:layout_toRightOf="@id/dutyStatusTextView"
+        android:layout_below="@id/roadNextTextView"
+        android:layout_marginTop="3dp" />
+
 
 </RelativeLayout>

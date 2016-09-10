@@ -204,7 +204,7 @@ public class GpsReceiver implements NmeaListener, LocationListener, Listener {
 
         locationManager.addNmeaListener(this);
         locationManager.addGpsStatusListener(this);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         gpsEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         Log.i(TAG, "start listen - Best:" + provider + " GPS:" + gpsEnable);
     }
@@ -336,6 +336,7 @@ public class GpsReceiver implements NmeaListener, LocationListener, Listener {
             } else if (aList[0].equalsIgnoreCase("$GNRMC") || aList[0].equalsIgnoreCase("$GPRMC")) {
                 // MS5668 USE "GNRMC", Normal device USE "GPRMC".
                 this.lastReceiveNmeaGpsTime = Calendar.getInstance();
+//                System.out.println("GGPRMC: " + nmea);
                 GPRMC tmp = GPRMC.parse(nmea);
                 if (tmp != null) {
                     doRMC(tmp);

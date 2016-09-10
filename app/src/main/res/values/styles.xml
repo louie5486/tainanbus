@@ -31,7 +31,7 @@
 
     <style name="roadDirect">
         <item name="android:textColor">@color/night_mode_txt_text</item>
-        <item name="android:textSize">72sp</item>
+        <item name="android:textSize">60sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -144,20 +144,20 @@
     </style>
 
     <style name="txt_time_night">
-        <item name="android:gravity">right</item>
+        <item name="android:gravity">center</item>
         <item name="android:textSize">38sp</item>
         <item name="android:textColor">@color/night_mode_txt_bus_title</item>
     </style>
 
     <style name="txt_car_status_night">
-        <item name="android:gravity">right</item>
+        <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/mainview_status_text_size</item>
         <item name="android:textColor">@color/night_mode_txt_text</item>
     </style>
 
     <style name="txt_duty_status_night">
-        <item name="android:gravity">left</item>
-        <item name="android:textSize">72sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/mainview_status_text_size</item>
         <item name="android:textColor">@color/night_mode_txt_text</item>
     </style>
 
@@ -192,7 +192,7 @@
 
     <style name="btn_stop_night">
         <item name="android:gravity">center</item>
-        <item name="android:textSize">72sp</item>
+        <item name="android:textSize">@dimen/mainview_go_button_size</item>
         <item name="android:textColor">@color/red_color</item>
     </style>
 

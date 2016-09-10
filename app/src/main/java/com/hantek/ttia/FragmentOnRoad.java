@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,18 +17,22 @@ import android.widget.TextView;
 import com.hantek.ttia.module.roadutils.Road;
 import com.hantek.ttia.module.roadutils.RoadManager;
 import com.hantek.ttia.module.roadutils.Station;
+import com.hantek.ttia.protocol.a1a4.BusStatus;
 import com.hantek.ttia.protocol.a1a4.DutyStatus;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class FragmentOnRoad extends Fragment implements OnClickListener, Runnable, DialogClickListener, View.OnLongClickListener {
     private static final String TAG = FragmentOnRoad.class.getName();
 
     private RelativeLayout rl;
-    private TextView dutyStatusTextView, roadTitleTextView, roadDirectTextView, roadCurrentTextView, roadNextTextView, roadNext;
+    private TextView timeTextView,dutyStatusTextView,carStatusTextView, roadTitleTextView, roadDirectTextView, roadCurrTextView,roadCurrentTextView, roadNextTextView, roadNext;
     private Button onRoadGoBackButton;
     private Handler mHandler = null;
     private boolean flag = false;
     private boolean flag2 = false;
-
+    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
     private String lastCStationStr = "";
     private String lastNStationStr = "";
 
@@ -52,6 +57,9 @@ public class FragmentOnRoad extends Fragment implements OnClickListener, Runnabl
         this.dutyStatusTextView = (TextView) rootView.findViewById(R.id.dutyStatusTextView);
         this.dutyStatusTextView.setOnClickListener(this);
 
+        this.carStatusTextView = (TextView) rootView.findViewById(R.id.carStatusTextView);
+        this.carStatusTextView.setOnClickListener(this);
+
         this.roadTitleTextView = (TextView) rootView.findViewById(R.id.roadTitleTextView);
         this.roadTitleTextView.setOnClickListener(this);
         this.roadTitleTextView.setOnLongClickListener(this);
@@ -61,9 +69,14 @@ public class FragmentOnRoad extends Fragment implements OnClickListener, Runnabl
         this.roadDirectTextView.setOnClickListener(this);
         this.roadDirectTextView.setOnLongClickListener(this);
 
+        this.roadCurrTextView = (TextView) rootView.findViewById(R.id.roadCurrTextView);
+        this.roadCurrTextView.setOnLongClickListener(this);
+        this.roadCurrTextView.setText("前站:");
+
         this.roadCurrentTextView = (TextView) rootView.findViewById(R.id.roadCurrentTextView);
         this.roadCurrentTextView.setOnClickListener(this);
         this.roadCurrentTextView.setOnLongClickListener(this);
+        this.roadCurrentTextView.setSelected(true);
 
         this.roadNextTextView = (TextView) rootView.findViewById(R.id.roadNextTextView);
         this.roadNextTextView.setOnLongClickListener(this);
@@ -73,6 +86,7 @@ public class FragmentOnRoad extends Fragment implements OnClickListener, Runnabl
         this.roadNext.setOnLongClickListener(this);
         this.roadNext.setSelected(true);
 
+        this.timeTextView = (TextView) rootView.findViewById(R.id.timeTextView);
         return rootView;
     }
 
@@ -80,6 +94,7 @@ public class FragmentOnRoad extends Fragment implements OnClickListener, Runnabl
     public void onResume() {
         Log.d(TAG, "onResume");
         refreshDutyStatus();
+        refreshCarStatus();
         refreshRoadTitle();
 //        refreshRoadDirect();
         refreshCurrentRoad();
@@ -116,14 +131,22 @@ public class FragmentOnRoad extends Fragment implements OnClickListener, Runnabl
             case R.id.dutyStatusTextView:
                 ((MainActivity) getActivity()).gotoChooseDutyStatus();
                 break;
+            case R.id.carStatusTextView:
+                ((MainActivity) getActivity()).gotoChooseCarStatus();
+                break;
             default:
 //                ((MainActivity) getActivity()).select(this);
                 break;
         }
     }
 
+    private void refreshCarStatus() {
+        String content = String.format("車況:%s", filterCarStatus(SystemPara.getInstance().getCurrentBusStatus()));
+        this.carStatusTextView.setText(content);
+    }
+
     private void refreshDutyStatus() {
-        String content = String.format("勤務狀態:%s", filterStatus(SystemPara.getInstance().getCurrentDutyStatus()));
+        String content = String.format("勤務:%s", filterDutyStatus(SystemPara.getInstance().getCurrentDutyStatus()));
         this.dutyStatusTextView.setText(content);
     }
 
@@ -210,16 +233,18 @@ public class FragmentOnRoad extends Fragment implements OnClickListener, Runnabl
         Station station = RoadManager.getInstance().getCurrentStationForUI();
         String tmp = "";
         if (station != null) {
-            tmp = "本站:" + station.zhName;
+            roadCurrTextView.setText("本站:");
+            tmp =  station.zhName;
         } else {
             Station prev = RoadManager.getInstance().getPreviousStation();
             if (prev != null) {
-                tmp = "前站:" + prev.zhName;
+                roadCurrTextView.setText("前站:");
+                tmp = prev.zhName;
             } else {
-                if (flag)
-                    tmp = "前站:";
-                else
-                    tmp = "前站:";
+//                if (flag)
+//                    tmp = "前站:";
+//                else
+//                    tmp = "前站:";
 
                 flag = !flag;
             }
@@ -262,7 +287,7 @@ public class FragmentOnRoad extends Fragment implements OnClickListener, Runnabl
         }
     }
 
-    private String filterStatus(DutyStatus dutyStatus) {
+    private String filterDutyStatus(DutyStatus dutyStatus) {
         switch (dutyStatus.getValue()) {
             case 0x1:
                 return getString(R.string.duty_status_ready);
@@ -279,11 +304,31 @@ public class FragmentOnRoad extends Fragment implements OnClickListener, Runnabl
         }
     }
 
+    private String filterCarStatus(BusStatus busStatus) {
+        switch (busStatus.getValue()) {
+            case 0x1:
+                return getString(R.string.car_status_online);
+            case 0x2:
+                return getString(R.string.car_status_accident);
+            case 0x4:
+                return getString(R.string.car_status_breakdown);
+            case 0x8:
+                return getString(R.string.car_status_jam);
+            case 0x10:
+                return getString(R.string.car_status_emergency);
+            case 0x20:
+                return getString(R.string.car_status_service);
+            default:
+                return getString(R.string.car_status_offline);
+        }
+    }
+
     @Override
     public void run() {
         try {
             refreshCurrentRoad();
             refreshNextRoad();
+            this.timeTextView.setText(dateFormat.format(Calendar.getInstance().getTime()));
         } catch (Exception e) {
             e.printStackTrace();
         }

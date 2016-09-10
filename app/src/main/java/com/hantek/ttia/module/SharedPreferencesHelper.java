@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.hantek.ttia.R;
+import com.hantek.ttia.SystemPara;
 import com.hantek.ttia.module.ledutils.LEDInfo;
 
 import java.io.File;

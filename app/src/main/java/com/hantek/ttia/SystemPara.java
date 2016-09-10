@@ -13,6 +13,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import com.hantek.ttia.protocol.a1a4.Message;
 
+import component.BestLocationListener;
+import component.gps_test;
+
 public class SystemPara {
     private static SystemPara parameter = new SystemPara();
 
@@ -22,6 +25,11 @@ public class SystemPara {
     public byte getManufacturer() {
         return manufacturer;
     }
+
+    private String version_code;
+
+    public BestLocationListener bastLocation = new BestLocationListener();
+    public gps_test GPS = bastLocation.getGps();
 
     // header
     private String protocolID;
@@ -431,5 +439,24 @@ public class SystemPara {
             return 100;
 
         return (int) ((activeGPS / totalGPS) * 100);
+    }
+
+    public String getVersion_code() {
+        return version_code;
+    }
+
+    public void setVersion_code(String version_code) {
+        this.version_code = version_code;
+    }
+    public gps_test getGPS() {
+        return GPS;
+    }
+
+    public BestLocationListener getBastLocation() {
+        return bastLocation;
+    }
+
+    public void setBastLocation(BestLocationListener bastLocation) {
+        this.bastLocation = bastLocation;
     }
 }

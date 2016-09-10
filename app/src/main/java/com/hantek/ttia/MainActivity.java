@@ -1,12 +1,17 @@
 package com.hantek.ttia;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -20,6 +25,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -43,8 +49,6 @@ import component.LogManager;
 
 public class MainActivity extends ActionBarActivity implements Runnable { // implements ActionBar.TabListener {
     private static final String TAG = MainActivity.class.getName();
-
-    public static final int LOGOFF = 1;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the sections. We use a {@link FragmentPagerAdapter} derivative, which will keep every loaded fragment in
@@ -128,6 +132,20 @@ public class MainActivity extends ActionBarActivity implements Runnable { // imp
         }
     };
 
+    private void checkCurrentVersionInfo() {
+        PackageInfo info = null;
+
+        try {
+            info = this.getPackageManager().getPackageInfo(this.getApplicationContext().getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException var6) {
+            var6.printStackTrace();
+        }
+
+        if(info != null) {
+            SystemPara.getInstance().setVersion_code("v" + info.versionCode + "");
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,8 +153,8 @@ public class MainActivity extends ActionBarActivity implements Runnable { // imp
         // before set view
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.activity_main);
 
+        setContentView(R.layout.activity_main);
         // // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
         // actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -200,7 +218,11 @@ public class MainActivity extends ActionBarActivity implements Runnable { // imp
     @Override
     protected void onResume() {
         Log.d(TAG, "OnResume");
+        LocationManager locationmanager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        SystemPara.getInstance().getBastLocation().unregister(locationmanager);
+        SystemPara.getInstance().getBastLocation().register(locationmanager, true);
         bindService(new Intent(this, SystemService.class), mConnection, Context.BIND_AUTO_CREATE);
+        checkCurrentVersionInfo();
         super.onResume();
     }
 
@@ -247,6 +269,7 @@ public class MainActivity extends ActionBarActivity implements Runnable { // imp
 
                 int size = imService.getAdvertFileSize();
                 this.mSectionsPagerAdapter.firstPage.setAdvert(size == 0 ? "" : String.valueOf(size));
+                this.mSectionsPagerAdapter.firstPage.setCarID(SystemPara.getInstance().getCarID());
             }
 
             if (SystemPara.getInstance().getFireCar()) {
@@ -583,7 +606,7 @@ public class MainActivity extends ActionBarActivity implements Runnable { // imp
             switch (msg.what) {
                 case SELECT_DIRECT:
                     ArrayList<Road> tmp = (ArrayList<Road>) msg.obj;
-                    selectDirect(tmp);
+                    selectDirect2(tmp);
                     break;
             }
         }
