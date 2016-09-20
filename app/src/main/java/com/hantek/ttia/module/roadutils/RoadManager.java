@@ -24,7 +24,8 @@ public class RoadManager {
     private static final int UNFIXED_COUNT = 30;
     private static final int MAX_STOP_DISTANCE = 500;
 
-    private static RoadManager instance = new PNDPlay();
+    //20160920 Louie 改邏輯，改用物件 PNDPlay2
+    private static RoadManager instance = new PNDPlay2();
 
     // 路線資料
     private final Object lockRoadListObj = new Object();

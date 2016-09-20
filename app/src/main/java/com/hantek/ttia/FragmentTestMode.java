@@ -62,6 +62,8 @@ public class FragmentTestMode extends Fragment implements Runnable, ScrollViewLi
     public static final int HDL_ETM_D3 = 3;
     public static final int HDL_DCR_E2 = 4;
     public static final int HDL_GPS = 5;
+    public static final int HDL_Staion = 6;
+
 
     // ui
     public static Handler mHandler;
@@ -173,6 +175,9 @@ public class FragmentTestMode extends Fragment implements Runnable, ScrollViewLi
                         if (group.getCheckedRadioButtonId() == R.id.radioGPS) {
                             addMessage(msg.obj.toString());
                         }
+                        break;
+                    case HDL_Staion:
+                        addMessage(msg.obj.toString());
                         break;
                 }
             }

@@ -35,6 +35,10 @@ public class gps_test implements Observer {
         return now_location;
     }
 
+    public void setNow_location(Location now_location) {
+        this.now_location = now_location;
+    }
+
     private String locationToString(Location location){
         String p;
         p = String.format("緯度：%s\n經度：%s\n精度：%s\n標高：%s\n時間：%s\n速度：%s\n方位：%s\n",

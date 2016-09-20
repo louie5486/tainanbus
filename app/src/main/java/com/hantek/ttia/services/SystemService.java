@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.location.LocationManager;
 import android.os.Binder;
 import android.os.Debug;
 import android.os.IBinder;
@@ -278,7 +279,7 @@ public class SystemService extends Service implements
 
     @Override
     public void onSPDataReceived(String data) {
-        obs("R: " + data + "\n", FragmentTestMode.HDL_GPS);
+//        obs("R: " + data + "\n", FragmentTestMode.HDL_GPS);
         try {
             //2016-03-24 GPS開啟不允許使用DEBUG避免資料錯誤
             if (GpsReceiver.getInstance().isEnable())
@@ -293,7 +294,7 @@ public class SystemService extends Service implements
             GpsReceiver.getInstance().setSpeed(gps.getSpeed());
             GpsReceiver.getInstance().setSatelliteNumber(gps.satelliteNumber);
 
-            obs("R: " + gps.toString() + "\n", FragmentTestMode.HDL_GPS);
+//            obs("R: " + gps.toString() + "\n", FragmentTestMode.HDL_GPS);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1358,8 +1359,14 @@ public class SystemService extends Service implements
                     GpsReceiver.getInstance().setLogGps(false);
                 } else if (cmd.equalsIgnoreCase("R_START")) {
                     GpsReceiver.getInstance().startListener(getApplication());
+                    LocationManager locationmanager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    SystemPara.getInstance().getBastLocation().unregister(locationmanager);
+                    SystemPara.getInstance().getBastLocation().register(locationmanager, true);
                 } else if (cmd.equalsIgnoreCase("R_STOP")) {
                     GpsReceiver.getInstance().stopListener();
+                    LocationManager locationmanager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    SystemPara.getInstance().getBastLocation().unregister(locationmanager);
+                    SystemPara.getInstance().getBastLocation().getGps().setNow_location(null);
                 } else if (cmd.equalsIgnoreCase("MARK")) {
                     try {
                         String content = String.format("Mark,%s,%s,%s,%s,%s,%s,%s", GpsReceiver.getInstance().getRawStatus(), GpsReceiver.getInstance().getSatelliteNumber(), GpsReceiver
@@ -1567,7 +1574,9 @@ public class SystemService extends Service implements
                     if (DioController.getInstance().getDiHi(2)) {
                         isDoorOpen = true;
                     }
-                    RoadManager.getInstance().checkStation(data);
+
+                    //20160920 Louie 改邏輯，改用物件 PNDPlay2
+//                    RoadManager.getInstance().checkStation(data);
                 }
             } catch (Exception e) {
                 LogManager.write(e, null);

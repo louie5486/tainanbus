@@ -15,6 +15,7 @@ import android.util.Log;
 import java.util.Date;
 import java.util.List;
 import java.util.Observable;
+import java.util.jar.Pack200;
 
 
 import static android.location.GpsStatus.GPS_EVENT_FIRST_FIX;
@@ -179,7 +180,7 @@ public class BestLocationListener extends Observable implements LocationListener
     }
 
     public void register(LocationManager locationManager, boolean gps) {
-        if (DEBUG) Log.d(TAG, "Registering this location listener: " + this.toString());
+        Log.d(TAG, "Registering this location listener: " + this.toString());
         o_locationManager = locationManager;
         long updateMinTime = SLOW_LOCATION_UPDATE_MIN_TIME;
         long updateMinDistance = SLOW_LOCATION_UPDATE_MIN_DISTANCE;
@@ -206,8 +207,14 @@ public class BestLocationListener extends Observable implements LocationListener
     }
 
     public void unregister(LocationManager locationManager) {
-        if (DEBUG) Log.d(TAG, "Unregistering this location listener: " + this.toString());
-        locationManager.removeUpdates(this);
+        Log.d(TAG, "Unregistering this location listener: " + this.toString());
+        if (o_locationManager!=null){
+            o_locationManager.removeUpdates(this);
+            o_locationManager = null;
+        }else{
+            locationManager.removeUpdates(this);
+        }
+
     }
 
     /**
@@ -238,7 +245,7 @@ public class BestLocationListener extends Observable implements LocationListener
     @Override
     public void onGpsStatusChanged(int event) {
         String[] gprmc = null;
-        GpsStatus currentgpsstatus = o_locationManager.getGpsStatus(null);
+//        GpsStatus currentgpsstatus = o_locationManager.getGpsStatus(null);
         switch (event) {
             case GPS_EVENT_FIRST_FIX:
                 Log.d("gps_debug1: " , ""+ GPS_EVENT_FIRST_FIX);
