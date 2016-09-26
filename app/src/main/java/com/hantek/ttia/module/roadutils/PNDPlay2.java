@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.hantek.ttia.FragmentTestMode;
 import com.hantek.ttia.SystemPara;
+import com.hantek.ttia.module.AudioPlayer;
 import com.hantek.ttia.module.Utility;
 import com.hantek.ttia.module.gpsutils.GpsReceiver;
 import com.hantek.ttia.protocol.a1a4.GpsStruct;
@@ -207,11 +208,11 @@ public class PNDPlay2 extends RoadManager {
                 pointList.remove(0);
             }
 
-            if (calcGpsAvgOffset() >= 50) {
-                this.stationInterface.debug(String.format("Offset,%s,%s,%s,%s,%s,%s,.",
-                        gpsContent.satelliteNumber, gpsContent.lon, gpsContent.lat, gpsContent.getAngle(), gpsContent.getSpeed(), gpsContent.time));
-//                return;
-            }
+//            if (calcGpsAvgOffset() >= 50) {
+//                this.stationInterface.debug(String.format("Offset,%s,%s,%s,%s,%s,%s,.",
+//                        gpsContent.satelliteNumber, gpsContent.lon, gpsContent.lat, gpsContent.getAngle(), gpsContent.getSpeed(), gpsContent.time));
+////                return;
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -229,16 +230,22 @@ public class PNDPlay2 extends RoadManager {
             }
 
             //速度五以下 ,且不是在第一站, 且不是折返點 不判斷
-            if (gpsContent.getSpeed()< 5 && getiNowStationNo() > 1) {
-                // this.stationInterface.debug(String.format("PND 速度五以下 ,且不是在第一站, 且不是折返點 不判斷, Origin=%s, KM=%s,.", gpsContent.getSpeed(), gpsContent.getSpeed() * 1.852d));
-                this.stationInterface.debug(String.format("W5,%s,%s,%s,%s,%s,.", gpsContent.lat, gpsContent.lon, gpsContent.getAngle(), gpsContent.getSpeed(), gpsContent.getSpeed() * 1.852d));
-                return;
-            }
+//            if (gpsContent.getSpeed()< 5 && getiNowStationNo() > 1) {
+//                // this.stationInterface.debug(String.format("PND 速度五以下 ,且不是在第一站, 且不是折返點 不判斷, Origin=%s, KM=%s,.", gpsContent.getSpeed(), gpsContent.getSpeed() * 1.852d));
+//                this.stationInterface.debug(String.format("W5,%s,%s,%s,%s,%s,.", gpsContent.lat, gpsContent.lon, gpsContent.getAngle(), gpsContent.getSpeed(), gpsContent.getSpeed() * 1.852d));
+//                return;
+//            }
 
             if (!this.stationChecked) {
                 iGetNo = getNowStationNo(gpsContent);
                 if (iGetNo > 0) {
-                    setiNowStationNo(iGetNo);
+                    if (getiNowStationNo()!=1){
+                        setiNowStationNo(iGetNo-1);
+                        this.stationInterface.leaveStation(currentRoad.stationArrayList.get(getiNowStationNo()), gpsContent, false, currentRoad);
+                    }else{
+                        AudioPlayer.getInstance().playWelcome();
+                    }
+
                     this.stationInterface.debug(String.format("C,%s,%s,%s,%s,%s,%s,.", gpsContent.lat, gpsContent.lon, gpsContent.getAngle(), gpsContent.getSpeed(), currentRoad.stationArrayList.get(getiNowStationNo() - 1).id, currentRoad.stationArrayList.get(getiNowStationNo() - 1).zhName));
                     this.stationChecked = true;
                 } else
@@ -250,24 +257,29 @@ public class PNDPlay2 extends RoadManager {
 
                 //針對第一站的播報加入的邏輯
                 if (duty_start){
+                    this.stationInterface.debug("啟始站判斷");
                     if (getiNowStationNo() == 1){
                         this.checkNowStation(gpsContent);
                         if (bonStation_flag==1){
                             this.stationInterface.enterStation(currentRoad.stationArrayList.get(getiNowStationNo() - 1), gpsContent, false, currentRoad);
                             duty_start = false;
+                            this.stationInterface.debug("啟始站(進)站判斷");
                         }else{
-                            if (bonStation_flag == 2){
-                                this.stationInterface.leaveStation(currentRoad.stationArrayList.get(getiNowStationNo()-1), gpsContent, false, currentRoad);
-                                duty_start = false;
-                            }
+//                            if (bonStation_flag == 2){
+//                                this.stationInterface.leaveStation(currentRoad.stationArrayList.get(getiNowStationNo()-1), gpsContent, false, currentRoad);
+//                                duty_start = false;
+//                                this.stationInterface.debug("啟始站(離)站判斷");
+//                            }
                             if (bonStation_flag == 4){
                                 stationChecked = false;
                                 bonStation_flag = 0;
                                 this.calTimes = 0;
                                 duty_start = false;
+                                this.stationInterface.debug("啟始站(偏移路線)判斷");
                             }
                         }
                     }else{
+                        this.stationInterface.debug("啟始站:非第一站 " + getiNowStationNo() + ":" +currentRoad.stationArrayList.get(getiNowStationNo()).zhName);
                         duty_start = false;
                     }
                     return;
@@ -410,6 +422,25 @@ public class PNDPlay2 extends RoadManager {
                 }
             }
 
+            //如果車輛行駛超過該站距的1.5倍，即進入加速收斂的狀況
+            if (iDist > sigStopDist) {
+                int p_station = this.checknearlyStation(last_gpsContent);
+                if (p_station!=-1){
+                    setiNowStationNo(p_station-1);
+
+                    tmpCurrStation = stationArrayList.get(getiNowStationNo());
+                    //到站
+                    bonNearStop = false;
+                    bonArrival = true;
+                    bonNextStop = true;
+                    bonGOLarrival = bonArrival;
+                    iRet = 1;//進站
+                    show_debug_msg(String.format("Rgt,偏侈路線1.5倍，進行加速判斷，范圍落在%s,%s,.1", tmpCurrStation.id, tmpCurrStation.zhName));
+                    this.stationInterface.debug(String.format("Rgt,偏侈路線1.5倍，進行加速判斷，范圍落在%s,%s,.1", tmpCurrStation.id, tmpCurrStation.zhName));
+                    return iRet;
+                }
+            }
+
             if (iDist > (sigStopDist * 2)) {
                 iLeaveStop = iLeaveStop + 1;
                 if (iLeaveStop > 5) {
@@ -428,6 +459,66 @@ public class PNDPlay2 extends RoadManager {
 
         bonGOLarrival = bonArrival;
         return iRet;
+    }
+
+    //20160922 Louie add 行進中檢查各站點的進站范圍，目的加速偏移路線邏輯
+    private int checknearlyStation(GpsContent gpsContent){
+        int j;
+        int stNo;
+        int dist;
+        Station station;
+        boolean getStation = false;
+        int tmpDist;
+        int nDist;
+        double longitude, latitude;
+        longitude = gpsContent.lon;
+        latitude = gpsContent.lat;
+        try {
+            if (getiNowStationNo() <= 1)
+                j = 0;
+            else
+                j = getiNowStationNo() - 1;
+            stNo = 1;
+
+            //先計算第一站距離
+            dist = (int) Utility.calcDistance(longitude, latitude, currentRoad.stationArrayList.get(0).longitude, currentRoad.stationArrayList.get(0).latitude);
+            if (dist < 80 && j == 0) {
+                getStation = true;
+            } else {
+                for (int i = j; i < currentRoad.stationArrayList.size(); i++) {
+                    station = currentRoad.stationArrayList.get(i);
+                    tmpDist = (int) Utility.calcDistance(longitude, latitude, station.longitude, station.latitude);
+                    if (tmpDist < 80) {
+                        if (tmpDist < dist) {
+                            stNo = i + 1;
+                            dist = tmpDist;
+                            getStation = true;
+                        }
+                    }
+                }
+            }
+
+            if (!getStation){
+                this.calTimes = 0;
+            }
+
+            if (stNo != nowStNo) {
+                //與前一次計算, 站牌有換
+                this.calTimes = 0;
+                this.nowStNo = stNo;
+            } else {
+                this.calTimes++;
+            }
+
+            if (this.calTimes>6){
+                this.calTimes = 0;
+                return stNo;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     /**
@@ -588,32 +679,39 @@ public class PNDPlay2 extends RoadManager {
 
         int oStop = iStopArea2;
         int oLeave = iLeaveArea2;
+
         //站與站 之間距離  過近   以距離 比率計算進離站
         if (sigStopDist < iCheckStopArea) {
             iStopArea2 = sigStopDist / 3;
             iLeaveArea2 = sigStopDist / 3;
         }
 
-        this.stationInterface.debug(String.format("C2,接近:%s(%s), 兩站距:%s, 檢查IN=%s(%s), OUT=%s(%s), Speed=%s,.", tmpCurrStation.zhName, filter(iDist), filter(sigStopDist), iStopArea2, oStop, iLeaveArea2, oLeave, sigKM2));
+        this.stationInterface.debug(String.format("NC0,接近:%s(%s), 兩站距:%s, 檢查IN=%s(%s), OUT=%s(%s), Speed=%s,.", tmpCurrStation.zhName, filter(iDist), filter(sigStopDist), iStopArea2, oStop, iLeaveArea2, oLeave, sigKM2));
+
+
 
         // 在站點範圍內
         if (iDist < iStopArea2) {
-            this.stationInterface.debug(String.format("C3,判斷進站:%s(%s), 兩站距:%s", tmpCurrStation.zhName, filter(iDist), filter(sigStopDist)));
+            this.stationInterface.debug(String.format("NC1,判斷進站:%s(%s), 兩站距:%s", tmpCurrStation.zhName, filter(iDist), filter(sigStopDist)));
             bonStation_flag = 1;    //進入本站
             return true;
         }else{
             //離開本站、往下一站前進
             if (iDist > iLeaveArea2)
                 if (iNextDist!=-1 && iNextDist< sigStopDist){
-                    this.stationInterface.debug(String.format("C2,判斷離站:%s(%s), 兩站距:%s", tmpCurrStation.zhName, filter(iDist), filter(sigStopDist)));
+                    this.stationInterface.debug(String.format("NC2,判斷離站:%s(%s), 兩站距:%s", tmpCurrStation.zhName, filter(iDist), filter(sigStopDist)));
                     bonStation_flag = 2;    //離開本站
+                    return true;
                 }
         }
         if (iDist < this.MAX_STOP_DIST){
             bonStation_flag = 3;            //還在判斷范圍內
         }else{
-            if (iDist > this.MAX_STOP_DIST+200)
-            bonStation_flag = 4;        //偏移路線
+            if (iDist > this.MAX_STOP_DIST+100){
+                bonStation_flag = 4;        //偏移路線
+                this.stationInterface.debug(String.format("NC4,偏移路線:%s(%s), 兩站距:%s", tmpCurrStation.zhName, filter(iDist), filter(sigStopDist)));
+
+            }
         }
 
         show_debug_msg(String.format("bonStation_flag=%s,iDist=%s,iStopArea2=%s,iLeaveArea2=%s,iNextDist=%s,,sigStopDist=%s,.", bonStation_flag, iDist, iStopArea2, iLeaveArea2, iNextDist,sigStopDist));
