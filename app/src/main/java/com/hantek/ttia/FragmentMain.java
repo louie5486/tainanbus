@@ -1,8 +1,10 @@
 package com.hantek.ttia;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -20,8 +22,11 @@ import com.hantek.ttia.protocol.a1a4.RegisterResponse;
 public class FragmentMain extends GlobalFragment implements OnClickListener {
     private static final String TAG = FragmentMain.class.getName();
 
-    private TextView carStatusTextView, roadTextView, driverTextView;
+    private TextView carStatusTextView, roadTextView, driverTextView,titleTextView,wayTextView;
     private Button goButton, secondGoButton;
+
+    private boolean isBtnLongPressed = false;
+    private long onPressedTime = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,7 +50,13 @@ public class FragmentMain extends GlobalFragment implements OnClickListener {
             case R.id.carStatusTextView:
                 ((MainActivity) getActivity()).gotoChooseCarStatus();
                 break;
+            case R.id.titleTextView:
+                ((MainActivity) getActivity()).gotoSelectRoad();
+                break;
             case R.id.roadTextView:
+                ((MainActivity) getActivity()).gotoSelectRoad();
+                break;
+            case R.id.wayTextView:
                 ((MainActivity) getActivity()).gotoSelectRoad();
                 break;
             case R.id.driverTextView:
@@ -72,9 +83,44 @@ public class FragmentMain extends GlobalFragment implements OnClickListener {
         this.carStatusTextView.setOnClickListener(this);
         this.carStatusTextView.setText("");
 
+
+        this.titleTextView = (TextView) rootView.findViewById(R.id.titleTextView);
+        this.wayTextView = (TextView) rootView.findViewById(R.id.wayTextView);
+
         this.roadTextView = (TextView) rootView.findViewById(R.id.roadTextView);
-        this.roadTextView.setOnClickListener(this);
+//        this.roadTextView.setMovementMethod(ScrollingMovementMethod.getInstance());
+//        this.roadTextView.setOnLongClickListener(new View.OnLongClickListener(){
+//
+//            @Override
+//            public boolean onLongClick(View v) {
+//                isBtnLongPressed = true;
+//                onPressedTime = System.currentTimeMillis();
+//                return false;
+//            }
+//        });
+//        this.roadTextView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (event.getAction() == MotionEvent.ACTION_UP) {
+//                    System.out.println("ontouch: " + isBtnLongPressed + " time:" + ((System.currentTimeMillis()-onPressedTime)/1000));
+//                    if (isBtnLongPressed){
+//                        isBtnLongPressed = false;
+//                        if (((System.currentTimeMillis()-onPressedTime)/1000) > 2){
+//                            ((MainActivity) getActivity()).gotoSelectRoad();
+//                        }
+//                    }
+//                    isBtnLongPressed = false;
+//                    return true;
+//                }
+//
+//                return false;
+//            }
+//        });
         this.roadTextView.setText("");
+
+        this.roadTextView.setOnClickListener(this);
+        this.titleTextView.setOnClickListener(this);
+        this.wayTextView.setOnClickListener(this);
 
         this.driverTextView = (TextView) rootView.findViewById(R.id.driverTextView);
         this.driverTextView.setOnClickListener(this);
@@ -100,7 +146,7 @@ public class FragmentMain extends GlobalFragment implements OnClickListener {
             if (cusID == 7600 || cusID == 999)
                 content = textMode7600(road);
 
-            this.roadTextView.setText(content);
+
         } else {
             this.roadTextView.setText("請輸入路線代碼");
         }
@@ -108,30 +154,49 @@ public class FragmentMain extends GlobalFragment implements OnClickListener {
 
     private String textModeDefault(Road road) {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("路線:%s ", road.id));
-        if (road.id == 65535)
-            sb.append("\n" + road.beginStation);
-        else {
-            sb.append(road.branch.equalsIgnoreCase("0") ? "主線" : ("支線" + road.branch));
-            sb.append("\n" + road.beginStation + "-" + road.endStation);
+        sb.append(String.format("%s 路", road.id));
+        if (road.id == 65535) {
+//            sb.append("\n" + road.beginStation);
+        }else {
+            sb.append(road.branch.equalsIgnoreCase("0") ? " 主線" : (" 支線" + road.branch));
+//            sb.append("\n" + road.beginStation + "-" + road.endStation);
         }
-        sb.append("\n" + filterDirect(road.direct));
+        this.titleTextView.setText(sb.toString());
+
+        // 迄站
+        if (road.endStation.equalsIgnoreCase("")){
+            roadTextView.setText(road.beginStation);
+        }else{
+            roadTextView.setText(road.beginStation  + "-" + road.endStation);
+        }
+
+        this.roadTextView.setSelected(true);
+        this.wayTextView.setText(filterDirect(road.direct));
         return sb.toString();
     }
 
     private String textMode7600(Road road) {
         StringBuilder sb = new StringBuilder();
         int newID = getRouteID(road.id, road.branch);
-        sb.append(String.format("路線:%s ", newID));
-        if (road.id == 65535)
-            sb.append("\n" + road.beginStation);
-        else {
+        sb.append(String.format("%s 路", road.id));
+        if (road.id == 65535) {
+//            sb.append("\n" + road.beginStation);
+        }else {
             if (newID < 10000) {
-                sb.append("支線" + road.branch);
+                sb.append(" 支線" + road.branch);
             }
-            sb.append("\n" + road.beginStation + "-" + road.endStation);
+//            sb.append("\n" + road.beginStation + "-" + road.endStation);
         }
-        sb.append("\n" + filterDirect(road.direct));
+        this.titleTextView.setText(sb.toString());
+
+        // 迄站
+        if (road.endStation.equalsIgnoreCase("")){
+            roadTextView.setText(road.beginStation);
+        }else{
+            roadTextView.setText(road.beginStation  + "-" + road.endStation);
+        }
+        this.roadTextView.setSelected(true);
+        this.wayTextView.setText(filterDirect(road.direct));
         return sb.toString();
     }
 

@@ -136,7 +136,7 @@ public class FragmentOnRoad extends Fragment implements OnClickListener, Runnabl
                 content = textMode7600(road);
 
             this.roadTitleTextView.setText(genTitle(road));
-            this.roadDirectTextView.setText(String.format("%s %s", content, filterDirect(road.direct)));
+            this.roadDirectTextView.setText(String.format("%s  / %s", content, filterDirect(road.direct)));
         } else {
             this.roadTitleTextView.setText("請輸入路線代碼");
             this.roadDirectTextView.setText("");
@@ -169,8 +169,8 @@ public class FragmentOnRoad extends Fragment implements OnClickListener, Runnabl
      */
     private String textModeDefault(Road road) {
         StringBuilder sb = new StringBuilder();
-        sb.append(road.id);
-        sb.append("-" + (road.branch.equalsIgnoreCase("0") ? "主線" : road.branch));
+        sb.append(String.format("%s 路", road.id));
+        sb.append("(" + (road.branch.equalsIgnoreCase("0") ? "主線" : (" 支線 " + road.branch)) +")");
         return sb.toString();
     }
 
@@ -185,7 +185,7 @@ public class FragmentOnRoad extends Fragment implements OnClickListener, Runnabl
         int newID = getRouteID(road.id, road.branch);
         sb.append(newID);
         if (newID < 10000)
-            sb.append("-" + (road.branch.equalsIgnoreCase("0") ? "主線" : road.branch));
+            sb.append("(" + (road.branch.equalsIgnoreCase("0") ? "主線" : road.branch) +")");
         return sb.toString();
     }
 

@@ -2,6 +2,8 @@ package com.hantek.ttia.dl;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Environment;

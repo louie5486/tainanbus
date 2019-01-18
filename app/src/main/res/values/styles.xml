@@ -145,7 +145,7 @@
 
     <style name="txt_time_night">
         <item name="android:gravity">right</item>
-        <item name="android:textSize">32sp</item>
+        <item name="android:textSize">38sp</item>
         <item name="android:textColor">@color/night_mode_txt_bus_title</item>
     </style>
 

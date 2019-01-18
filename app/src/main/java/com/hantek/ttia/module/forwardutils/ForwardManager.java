@@ -50,7 +50,7 @@ public class ForwardManager extends Thread {
     public ForwardManager() {
         // 設定需要補傳的MessageID
 //        retryList.add(BackendMsgID.RegularReport);
-//        retryList.add(BackendMsgID.EventReport);
+        retryList.add(BackendMsgID.EventReport);
 //        retryList.add(BackendMsgID.DeviceAlarm);
     }
 
